@@ -29,3 +29,22 @@ def profilepic(request, pic_id):
     #    raise Http404("Picture does not exist")
 
     return HttpResponse(template.render(context, request))
+
+def profilepicform(request):
+
+    template = loader.get_template('appeGov/picForm.html')
+    return HttpResponse(template.render({}, request))
+
+def profilepicFormA(request, *args, **kwargs):
+
+    template = loader.get_template('appeGov/picForm.html')
+    id = int(request.POST.get("id"))
+    path = str(request.POST.get("path"))
+    
+    print(id)
+    print(request.POST.get("path"))
+    h = Profilepicture(id, path)
+    #h.save()
+    return HttpResponse(template.render({}, request))
+    
+

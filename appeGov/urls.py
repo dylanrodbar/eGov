@@ -12,5 +12,7 @@ urlpatterns = [
     #/appeGov/numero/
     url(r'^(?P<pic_id>[0-9]+)/$', views.profilepic, name='profilepic'),
 
-    
+    url(r'^profilepicform/$', views.profilepicform, name='profilepicform'),
+
+    url(r'^profilepicFormA/$', views.profilepicFormA, name='profilepicFormA'),
 ]
