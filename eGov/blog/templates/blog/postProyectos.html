@@ -1,0 +1,87 @@
+{% extends "home/header.html" %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="container">
+<div class="row">
+  <div class="col-md-8">
+ 
+
+		<h3>{{ post.title }}</h3>
+		<h6> on {{ post.date }}</h6>
+
+		
+			{{ post.content|safe|linebreaks}}
+		
+			<br><br>
+		<div align="right">
+			<a  href="#"><span class="glyphicon glyphicon-thumbs-up"></span> Aprueba</a>
+			&nbsp&nbsp
+			<a href="#"><span class="glyphicon glyphicon-transfer"></span> Neutral</a>
+			&nbsp&nbsp
+			<a href="#"><span class="glyphicon glyphicon-thumbs-down"></span> Desaprueba</a>
+		</div>
+   
+			
+	</div>
+	<div class="col-md-4" style="padding-top:75px;">
+				<div class="progress">
+		  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
+		  aria-valuemin="0" aria-valuemax="100" style="width:40%">
+			40% Aprueba
+		  </div>
+		</div>
+
+		<div class="progress">
+		  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50"
+		  aria-valuemin="0" aria-valuemax="100" style="width:50%">
+			50% Neutral
+		  </div>
+		</div>
+
+		<div class="progress">
+		  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70"
+		  aria-valuemin="0" aria-valuemax="100" style="width:70%">
+			70% Desaprueba
+		  </div>
+		</div>
+	 </div>
+</div>
+	
+	<h4>Deja un comentario</h4>
+      <form role="form">
+        <div class="form-group">
+          <textarea class="form-control" rows="3" required></textarea>
+        </div>
+		<div align="right">
+			    <button type="submit" class="btn btn-danger">Enviar</button>
+		</div>
+      </form>
+	
+	<p><span class="badge">2</span> Comentarios:</p><br>
+	<div class="row">
+	{% for comment in post.comment_set.all %}
+	
+	      
+        <div class="col-sm-2 text-center">
+          <img src="{% static 'home/img/profile.jpg' %}" class="img-circle" height="65" width="65" alt="Avatar">
+        </div>
+        <div class="col-sm-10">
+          <h4>{{comment.user }}   <small>{{comment.date}}</small></h4>
+          <p>{{comment.description}}</p>
+          <br>
+        </div>
+        
+        
+      
+    
+	
+	{% endfor %}
+	</div>
+		 
+	
+	
+	
+	
+</div>
+{% endblock %}
