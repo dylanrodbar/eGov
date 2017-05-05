@@ -1,0 +1,11 @@
+{% if latest_question_list %}
+    <ul>
+    {% for profileP in latest_question_list %}
+        <li><a href="{% url 'appeGov:profilepic' profileP.id %}">{{ profileP.id }}</a></li>
+    {% endfor %}
+    </ul>
+
+    <li><a href="{% url 'appeGov:profilepicform' %}">{{Formulario}}</a></li>
+{% else %}
+    <p>No profilePictures are available</p>
+{% endif %}
