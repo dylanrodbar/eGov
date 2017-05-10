@@ -7,6 +7,7 @@ DROP PROCEDURE IF EXISTS EGSP_SelectPost;
 DROP PROCEDURE IF EXISTS EGSP_SelectImagesXPost;
 DROP PROCEDURE IF EXISTS EGSP_SelectCommentsXPost;
 DROP PROCEDURE IF EXISTS EGSP_SelectUserFromLogIn;
+DROP PROCEDURE IF EXISTS EGSP_SelecLawProjectStadistics;
 
 DELIMITER //
 
@@ -78,6 +79,17 @@ BEGIN
 		ON PP.ID = U.FK_ProfilePicture
 	WHERE
 		U.UserName = pUserName AND U.Password = pPassword;
+END
+//
+
+CREATE PROCEDURE EGSP_SelecLawProjectStadistics (
+	pPostID INT)
+BEGIN
+	SELECT S.Yes, S.No, S.Unknown
+    FROM Stadistics S
+    JOIN LawProjects LP
+		ON S.ID = LP.FK_Stadistics
+	WHERE LP.FK_Post = pPostID;
 END
 //
 
