@@ -1,0 +1,96 @@
+{% extends "home/header.html" %}
+
+
+
+{% block content %}
+<br>
+<br>
+<div class="container">
+
+    <form class="well form-horizontal" action=" " method="post"  id="contact_form">
+<fieldset>
+
+<!-- Form Name -->
+<legend>Contatecnos</legend>
+
+<!-- Text input-->
+
+<div class="form-group">
+  <label class="col-md-2 control-label">Nombre</label>  
+  <div class="col-md-6 inputGroupContainer">
+  <div class="input-group">
+  <span class="input-group-addon" id="sizing-addon1"><i class="glyphicon glyphicon-user"></i></span>
+  <input  name="first_name" placeholder="Nombre" class="form-control"  type="text">
+    </div>
+  
+</div>
+</div>
+
+<!-- Text input-->
+
+<div class="form-group">
+  <label class="col-md-2 control-label" >Apellido</label> 
+    <div class="col-md-6 inputGroupContainer">
+    <div class="input-group">
+  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+  <input name="last_name" placeholder="Apellido" class="form-control"  type="text">
+    </div>
+  </div>
+</div>
+
+<!-- Text input-->
+       <div class="form-group">
+  <label class="col-md-2 control-label">Email</label>  
+    <div class="col-md-6 inputGroupContainer">
+    <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+  <input name="email" placeholder="Email" class="form-control"  type="text">
+    </div>
+  </div>
+</div>
+
+
+<!-- Text input-->
+       
+<div class="form-group">
+  <label class="col-md-2 control-label">Telefono</label>  
+    <div class="col-md-6 inputGroupContainer">
+    <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+  <input name="phone" placeholder="Telefono" class="form-control" type="text">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+  
+<div class="form-group">
+  <label class="col-md-2 control-label">Mensaje</label>
+    <div class="col-md-6 inputGroupContainer">
+    <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+        	<textarea class="form-control" name="comment" placeholder="Escriba su mensaje" rows="5"></textarea>
+  </div>
+  </div>
+</div>
+
+<
+<!-- Button -->
+<div class="form-group">
+  <label class="col-md-2 control-label"></label>
+  <div class="col-md-7" align="right">
+    <button type="submit" class="btn btn-danger" >Enviar <span class="glyphicon glyphicon-send"></span></button>
+  </div>
+</div>
+
+</fieldset>
+</form>
+</div>
+    </div><!-- /.container -->
+
+
+{% endblock %}

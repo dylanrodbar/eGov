@@ -4,15 +4,21 @@ from django.views.generic import ListView, DetailView
 from blog.models import Post
 
 urlpatterns = [ 
-                url(r'^noticias/$', ListView.as_view(queryset=Post.objects.all().order_by("-date")[:25],
-                                    template_name="blog/noticias.html")),
+                url(r'^noticias/$', views.Noticias, name='noticias'),
 
-                url(r'^proyectos/$', ListView.as_view(
-                                   queryset=Post.objects.all().order_by("-date")[:25],
-                                    template_name="blog/proyectos.html")),
+                url(r'^proyectos/$', views.Proyectos, name='proyectos'),
 
-                url(r'^noticias/(?P<pk>\d+)$',views.NoticiasDetail.as_view(), name='postNoticias'),
+                url(r'^noticias/(?P<id>[0-9]+)$',views.NoticiasDetail, name='postNoticias'),
 
 
-                url(r'^proyectos/(?P<pk>\d+)$', views.ProyectosDetail.as_view(), name='postProyectos'),
+                url(r'^proyectos/(?P<id>[0-9]+)/$', views.ProyectosDetail, name='postProyectos'),
+                
+                 url(r'^proyectos/new/$', views.newProject, name='newP'),
+
+                  url(r'^noticias/new/$', views.newNoticia, name='newN'),
+
+
+                url(r'^perfil/$', views.Profile, name='Pefil'),
+
+                
             ]

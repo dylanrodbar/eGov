@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="container">
-{% for post in object_list %}
+{% for post in noticias %}
 
 		<h2><a href="/blog/noticias/{{post.id}}">  {{ post.title }}</a></h2>
 		<h4>{{ post.date|date:"Y-m-d" }}</h4>
@@ -21,7 +21,7 @@
 	
 		 
 	<div align="right" >
-		<button type="submit" class="btn btn-danger" style="margin-top:20px;">Nueva Noticia</button>
+		<a href="/blog/noticias/new/"><button type="submit" class="btn btn-danger" style="margin-top:20px;">Nueva Noticia</button></a>
 	</div>
 		  
 	

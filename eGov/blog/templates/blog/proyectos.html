@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="container">
-{% for post in object_list %}
+{% for post in proyectos %}
 
 		<h2><a href="/blog/proyectos/{{post.id}}">  {{ post.title }}</a></h2>
 		<h4>{{ post.date|date:"Y-m-d" }}</h4>
@@ -17,6 +17,10 @@
 			<li><a href="#">Siguiente</a></li>
 		  </ul>
    </nav>
+	
+		<div align="right" >
+		<a href="/blog/proyectos/new/"><button type="submit" class="btn btn-danger" style="margin-top:20px;">Nueva Proyecto</button></a>
+	</div>
 	
 </div>
 {% endblock %}

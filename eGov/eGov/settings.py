@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'personal',
     'home',
     'blog',
     'django.contrib.admin',
@@ -77,8 +78,11 @@ WSGI_APPLICATION = 'eGov.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'eGov',
+        'USER': 'root',
+        'PASSWORD': 'lancelote1',
+        
     }
 }
 

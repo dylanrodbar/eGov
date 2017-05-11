@@ -48,6 +48,7 @@ create table Comments
 (
 	ID int auto_increment,
 	Description varchar(500),
+	Date date, 
 	FK_User int,
 	FK_Post int,
 	primary key (ID),
