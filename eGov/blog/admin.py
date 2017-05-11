@@ -1,9 +1,9 @@
 from django.contrib import admin
-from blog.models import Post
-from blog.models import Comment
-from blog.models import User
+from blog.models import Posts
+from blog.models import Comments
+from blog.models import Users
 
-admin.site.register(Post)
-admin.site.register(Comment)
-admin.site.register(User)
+admin.site.register(Posts)
+admin.site.register(Comments)
+admin.site.register(Users)
 

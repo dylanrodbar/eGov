@@ -1,7 +1,7 @@
 from django.conf.urls import url, include
 from . import views
 from django.views.generic import ListView, DetailView
-from blog.models import Post
+from blog.models import Posts
 
 urlpatterns = [ 
                 url(r'^noticias/$', views.Noticias, name='noticias'),
@@ -13,12 +13,14 @@ urlpatterns = [
 
                 url(r'^proyectos/(?P<id>[0-9]+)/$', views.ProyectosDetail, name='postProyectos'),
                 
-                 url(r'^proyectos/new/$', views.newProject, name='newP'),
+                url(r'^proyectos/new/$', views.newProject, name='newP'),
 
-                  url(r'^noticias/new/$', views.newNoticia, name='newN'),
+                url(r'^noticias/new/$', views.newNoticia, name='newN'),
 
 
                 url(r'^perfil/$', views.Profile, name='Pefil'),
+
+                url(r'^comentario/(?P<id>[0-9]+)$',views.insertComment, name='insertComment'),
 
                 
             ]

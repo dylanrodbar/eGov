@@ -13,9 +13,9 @@
 	<br><br>
 	
 	<h4>Deja un comentario</h4>
-      <form role="form">
+      <form method='POST' action='{% url 'blog:insertComment' id %}'  > {% csrf_token %} 
         <div class="form-group">
-          <textarea class="form-control" rows="3" required></textarea>
+          <textarea class="form-control" rows="3" required name='comment'></textarea>
         </div>
 		<div align="right">
 			    <button type="submit" class="btn btn-danger">Enviar</button>
