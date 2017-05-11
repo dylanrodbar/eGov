@@ -6,6 +6,8 @@ from blog.models import Posts
 urlpatterns = [ 
                 url(r'^noticias/$', views.Noticias, name='noticias'),
 
+                url(r'^insertPost/$', views.insertPost, name='insertPost'),
+
                 url(r'^proyectos/$', views.Proyectos, name='proyectos'),
 
                 url(r'^noticias/(?P<id>[0-9]+)$',views.NoticiasDetail, name='postNoticias'),

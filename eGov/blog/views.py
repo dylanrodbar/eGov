@@ -72,9 +72,22 @@ def insertComment(request, id):
     template = loader.get_template('blog/PostNoticias.html')
     comment = request.POST.get('comment')
     cur = connection.cursor()
-    cur.callproc('EGSP_InsertComment', [comment, 1, 1, '2017-03-03'])
+    cur.callproc('EGSP_InsertComment', [comment, 1, id, '2017-03-03'])
     cur.close
     context = {}
     #return redirect('postNoticias', id=idk)
     return HttpResponseRedirect(reverse('blog:postNoticias', args=[id])) 
+    
+
+def insertPost(request):
+    print("Entra a insert post")
+    template = loader.get_template('blog/newNoticia.html')
+    title = request.POST.get('title')
+    comment = request.POST.get('comment')
+    content = 'Contenido5'
+    user = 1
+    cur = connection.cursor()
+    cur.callproc('EInsertPost', [title, comment, content, 1])
+    cur.close
+    return HttpResponseRedirect(reverse('blog:noticias')) 
     
