@@ -21,6 +21,7 @@ template_name = 'blog/postProyectos.html'
 
 
 def Noticias(request):
+    
     noticias = Posts.objects.all()[:25]
     template = loader.get_template('blog/noticias.html')
     print(noticias)
@@ -72,7 +73,8 @@ def insertComment(request, id):
     template = loader.get_template('blog/PostNoticias.html')
     comment = request.POST.get('comment')
     cur = connection.cursor()
-    cur.callproc('EGSP_InsertComment', [comment, 1, id, '2017-03-03'])
+    user = int(request.session['Usuario'])
+    cur.callproc('EGSP_InsertComment', [comment, user, id,])
     cur.close
     context = {}
     #return redirect('postNoticias', id=idk)
@@ -85,9 +87,9 @@ def insertPost(request):
     title = request.POST.get('title')
     comment = request.POST.get('comment')
     content = 'Contenido5'
-    user = 1
+    user = int(request.session['Usuario'])
     cur = connection.cursor()
-    cur.callproc('EInsertPost', [title, comment, content, 1])
+    cur.callproc('EInsertPost', [title, comment, content, user])
     cur.close
     return HttpResponseRedirect(reverse('blog:noticias')) 
     

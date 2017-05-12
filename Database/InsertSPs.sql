@@ -115,8 +115,8 @@ CREATE PROCEDURE EGSP_InsertComment (
     pUser INT,
     pPost INT)
 BEGIN
-	INSERT INTO Comments (Description, FK_User, FK_Post)
-    VALUES (pDescription, pUser, pPost);
+	INSERT INTO Comments (Description, FK_User, FK_Post, Date)
+    VALUES (pDescription, pUser, pPost, CURDATE());
 END
 //
 
