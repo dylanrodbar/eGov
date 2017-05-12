@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'personal',
     'home',
     'blog',
+    'blogClient',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -70,6 +71,8 @@ TEMPLATES = [
         },
     },
 ]
+
+
 
 WSGI_APPLICATION = 'eGov.wsgi.application'
 

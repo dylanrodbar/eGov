@@ -241,8 +241,9 @@ class Tagsxpost(models.Model):
 
 
 class Users(models.Model):
-    id = models.IntegerField(db_column='ID', primary_key=True)  # Field name made lowercase.
+    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=75, blank=True, null=True)  # Field name made lowercase.
+    lastname = models.CharField(db_column='LastName', max_length=75, blank=True, null=True)  # Field name made lowercase.
     username = models.CharField(db_column='UserName', unique=True, max_length=25, blank=True, null=True)  # Field name made lowercase.
     email = models.CharField(db_column='Email', unique=True, max_length=75, blank=True, null=True)  # Field name made lowercase.
     password = models.CharField(db_column='Password', max_length=200, blank=True, null=True)  # Field name made lowercase.

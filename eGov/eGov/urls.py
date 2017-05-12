@@ -20,4 +20,6 @@ urlpatterns = [
     url(r'^', include('home.urls', namespace="home")),
     url(r'^personal/', include('personal.urls')),
     url(r'^blog/', include('blog.urls', namespace="blog")),
+    url(r'^blogClient/', include('blogClient.urls', namespace="blogClient")),
+    
 ]

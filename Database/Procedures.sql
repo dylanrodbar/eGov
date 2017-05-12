@@ -39,3 +39,29 @@ end $$
 delimiter;
 call commentsPost(1);
 drop procedure commentsPost
+
+
+delimiter $$
+create procedure PostsXUser(User int)
+begin
+	select p.Title from Posts p
+		where p.FK_User = User;
+	
+end $$
+
+delimiter ;
+drop procedure PostsXUser
+call PostsXUser(1)
+
+delimiter $$
+create procedure SignIn(Name varchar(75), LastName varchar(75), UserName varchar(25), Email varchar(75), Password varchar(200))
+begin
+	insert into Users(Name, LastName, UserName, Email, PassWord, Points, FK_UserType, FK_ProfilePicture) 
+	values(Name, LastName, UserName, Email, Password, 0, 1, 1);
+	
+end $$
+
+delimiter ;
+
+drop procedure SignIn
+call SignIn('Joanne', 'Germanotta', 'joanne123', 'joanne@gmail.com', 'joanne123')

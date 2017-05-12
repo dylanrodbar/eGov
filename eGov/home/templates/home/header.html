@@ -41,15 +41,15 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li class="active"><a href="/">Inicio</a></li>
-        <li><a href='/blog/noticias'>Noticias</a></li>
-        <li><a href='/blog/proyectos'>Proyectos</a></li>
+        <li><a href='/login/redirectNoticias'>Noticias</a></li>
+        <li><a href='/login/redirectProyectos'>Proyectos</a></li>
         <li><a href='/'>Sobre nosotros</a></li>
 		<li><a href='/personal/contacto'>Contacto</a></li>
-		<li><a href='/blog/perfil'>Perfil</a></li>
+		<li><a href='/login/redirectPerfil'>Perfil</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a  href="#" data-toggle="modal" data-target="#SignUp"><span class="glyphicon glyphicon-user"></span> Registrarse</a></li>
-        <li><a href="#" data-toggle="modal" data-target="#Login"><span class="glyphicon glyphicon-log-in"></span> Ingresar</a></li>
+			<li><a  href="#" data-toggle="modal" data-target="#SignUp"><span class="glyphicon glyphicon-user"></span> Registrarse</a></li>
+			<li><a href="#" data-toggle="modal" data-target="#Login"><span class="glyphicon glyphicon-log-in"></span> Ingresar</a></li>
       </ul>
     </div>
   
@@ -70,22 +70,26 @@
         			
         			<div class="modal-body">
         				
-	                    <form role="form" action="" method="post" class="registration-form">
+	                    <form role="form" class="registration-form" method='POST' action='{% url 'home:signin' %}'  > {% csrf_token %}
 	                    	<div class="form-group">
 	                    		<label class="sr-only" for="form-first-name">Nombre</label>
-	                        	<input type="text" name="form-first-name" placeholder="First name..." class="form-first-name form-control" id="form-first-name">
+	                        	<input type="text" name='name' placeholder="First name..." class="form-first-name form-control" id="form-first-name">
 	                        </div>
 	                        <div class="form-group">
 	                        	<label class="sr-only" for="form-last-name">Apellido</label>
-	                        	<input type="text" name="form-last-name" placeholder="Last name..." class="form-last-name form-control" id="form-last-name">
+	                        	<input type="text" name='lastname' placeholder="Last name..." class="form-last-name form-control" id="form-last-name">
+	                        </div>
+							<div class="form-group">
+	                        	<label class="sr-only" for="form-username">Nombre de usuario</label>
+	                        	<input type="text" name='username' placeholder="Nombre de usuario..." class="form-username form-control" id="form-username">
 	                        </div>
 	                        <div class="form-group">
 	                        	<label class="sr-only" for="form-email">Correo</label>
-	                        	<input type="text" name="form-email" placeholder="Email..." class="form-email form-control" id="form-email">
+	                        	<input type="text" name='email' placeholder="Email..." class="form-email form-control" id="form-email">
 	                        </div>
 	                        <div class="form-group">
 	                        	<label class="sr-only" for="form-about-yourself">Contraseña</label>
-	                        	<input type="password" name="form-password" placeholder="Contraseña..." class="form-password form-control" id="form-password">
+	                        	<input type="password" name='password' placeholder="Contraseña..." class="form-password form-control" id="form-password">
 	                        </div>
 	                        <button type="submit" class="btnIngresar">Registrarse</button>
 	                    </form>

@@ -1,0 +1,24 @@
+{% extends "home/header.html" %}
+
+{% block content %}
+
+<div class="container">
+{% for post in proyectos %}
+
+		<h2><a href="/blog/proyectos/{{post.id}}">  {{ post.title }}</a></h2>
+		<h4>{{ post.date|date:"Y-m-d" }}</h4>
+		<p>{{post.description}}</p>
+		
+	{% endfor %}
+	
+	<nav aria-label="...">
+		  <ul class="pager">
+			<li><a href="#">Anterior</a></li>
+			<li><a href="#">Siguiente</a></li>
+		  </ul>
+   </nav>
+	
+		
+	
+</div>
+{% endblock %}

@@ -15,9 +15,9 @@ urlpatterns = [
 
                 url(r'^proyectos/(?P<id>[0-9]+)/$', views.ProyectosDetail, name='postProyectos'),
                 
-                url(r'^proyectos/new/$', views.newProject, name='newProject'),
+                url(r'^proyectos/new/$', views.newProject, name='newP'),
 
-                url(r'^noticias/new/$', views.newNoticia, name='newNoticia'),
+                url(r'^noticias/new/$', views.newNoticia, name='newN'),
 
 
                 url(r'^perfil/$', views.Profile, name='Perfil'),

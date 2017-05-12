@@ -1,0 +1,31 @@
+{% extends "home/header.html" %}
+
+{% block content %}
+
+<div class="container">
+{% for post in noticias %}
+
+		<h2><a href="/blog/noticias/{{post.id}}">  {{ post.title }}</a></h2>
+		<h4>{{ post.date|date:"Y-m-d" }}</h4>
+		<p>{{post.description}}</p>
+		
+	{% endfor %}
+	
+	<nav aria-label="...">
+		  <ul class="pager">
+			<li><a href="#">Anterior</a></li>
+			<li><a href="#">Siguiente</a></li>
+		  </ul>
+   </nav>
+	
+	
+		 
+	<div align="right" >
+		<a href="/blog/noticias/new/"><button type="submit" class="btn btn-danger" style="margin-top:20px;">Nueva Noticia</button></a>
+	</div>
+		  
+	
+	
+	
+</div>
+{% endblock %}

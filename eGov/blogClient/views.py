@@ -37,13 +37,14 @@ def Profile(request):
     template = loader.get_template('blogClient/profile.html')
     return HttpResponse(template.render(context, request))
 
-template_name = 'blog/postProyectos.html'
+
+template_name = 'blogClient/postProyectos.html'
 
 
 def Noticias(request):
     
     noticias = Posts.objects.all()[:25]
-    template = loader.get_template('blog/noticias.html')
+    template = loader.get_template('blogClient/noticias.html')
     print(noticias)
     context = {
     	'noticias': noticias 
@@ -52,7 +53,7 @@ def Noticias(request):
 
 def Proyectos(request):
     proyectos = Posts.objects.all()[:25]
-    template = loader.get_template('blog/proyectos.html')
+    template = loader.get_template('blogClient/proyectos.html')
 	
     context = {
     	'proyectos': proyectos 
@@ -63,15 +64,13 @@ def Proyectos(request):
 
 def NoticiasDetail(request, id):
     
-    print(request)
     post = get_object_or_404(Posts, pk=id)
     cur = connection.cursor()
     cur.callproc('commentsPost', [id,])
     comentarios = cur.fetchall()
     cur.close 
-    template = loader.get_template('blog/PostNoticias.html')
-    print(comentarios)
-
+    template = loader.get_template('blogClient/PostNoticias.html')
+    
     context = {
     'post': post,
     'comentarios': comentarios,
@@ -81,7 +80,7 @@ def NoticiasDetail(request, id):
 
 def ProyectosDetail(request, id):
     post = get_object_or_404(Posts, pk=id)
-    template = loader.get_template('blog/PostProyectos.html')
+    template = loader.get_template('blogClient/PostProyectos.html')
     context = {
     'post': post
     }
@@ -90,7 +89,7 @@ def ProyectosDetail(request, id):
 
 def insertComment(request, id):
 
-    template = loader.get_template('blog/PostNoticias.html')
+    template = loader.get_template('blogClient/PostNoticias.html')
     comment = request.POST.get('comment')
     cur = connection.cursor()
     user = int(request.session['Usuario'])
@@ -98,18 +97,18 @@ def insertComment(request, id):
     cur.close
     context = {}
     #return redirect('postNoticias', id=idk)
-    return HttpResponseRedirect(reverse('blog:postNoticias', args=[id])) 
+    return HttpResponseRedirect(reverse('blogClient:postNoticias', args=[id])) 
     
 
 def insertPost(request):
     print("Entra a insert post")
-    template = loader.get_template('blog/newNoticia.html')
+    template = loader.get_template('blogClient/newNoticia.html')
     title = request.POST.get('title')
     comment = request.POST.get('comment')
-    content = request.POST.get('content')
+    content = 'Contenido5'
     user = int(request.session['Usuario'])
     cur = connection.cursor()
     cur.callproc('EInsertPost', [title, comment, content, user])
     cur.close
-    return HttpResponseRedirect(reverse('blog:noticias')) 
+    return HttpResponseRedirect(reverse('blogClient:noticias')) 
     

@@ -1,7 +1,3 @@
-drop database if exists eGov;
-create database eGov;
-use eGov;
-
 create table UserTypes
 (
 	ID int auto_increment,
@@ -18,8 +14,9 @@ create table ProfilePictures
 
 create table Users
 (
-	ID int,
+	ID int auto_increment,
 	Name varchar(75),
+    LastName varchar(75),
 	UserName varchar(25) unique,
 	Email varchar(75) unique,
 	Password varchar(200),
@@ -27,9 +24,12 @@ create table Users
 	FK_UserType int,
 	FK_ProfilePicture int,
 	primary key (ID),
-	foreign key (FK_UserType) references UserTypes (ID),
-	foreign key (FK_ProfilePicture) references ProfilePictures (ID)
+	foreign key (FK_UserType) references UserTypes (ID) on delete cascade,
+	foreign key (FK_ProfilePicture) references ProfilePictures (ID) on delete cascade
 );
+
+
+
 
 create table Posts
 (
@@ -41,7 +41,7 @@ create table Posts
 	Date date,
 	FK_User int,
 	primary key (ID),
-	foreign key (FK_User) references Users (ID)
+	foreign key (FK_User) references Users (ID) on delete cascade 
 );
 
 create table Comments
@@ -52,8 +52,8 @@ create table Comments
 	FK_User int,
 	FK_Post int,
 	primary key (ID),
-	foreign key (FK_User) references Users (ID),
-	foreign key (FK_Post) references Posts (ID)
+	foreign key (FK_User) references Users (ID) on delete cascade,
+	foreign key (FK_Post) references Posts (ID) on delete cascade
 );
 
 create table Images
@@ -62,7 +62,7 @@ create table Images
 	Path varchar(100),
 	FK_Post int,
 	primary key (ID),
-	foreign key (FK_Post) references Posts (ID)
+	foreign key (FK_Post) references Posts (ID) on delete cascade
 );
 
 create table Tags
@@ -78,8 +78,8 @@ create table TagsXPost
 	FK_Post int,
 	FK_Tag int,
 	primary key (ID),
-	foreign key (FK_Post) references Posts (ID),
-	foreign key (FK_Tag) references Tags (ID)
+	foreign key (FK_Post) references Posts (ID) on delete cascade,
+	foreign key (FK_Tag) references Tags (ID) on delete cascade
 );
 
 create table Stadistics
@@ -88,7 +88,7 @@ create table Stadistics
 	Yes int,
 	No int,
 	Unknown int,
-	primary key (ID)
+	primary key (ID) 
 );
 
 create table LawProjects
@@ -97,6 +97,6 @@ create table LawProjects
 	Link varchar(200),
 	FK_Stadistics int,
 	primary key (FK_Post),
-	foreign key (FK_Post) references Posts (ID),
-	foreign key (FK_Stadistics) references Stadistics (ID)
+	foreign key (FK_Post) references Posts (ID) on delete cascade,
+	foreign key (FK_Stadistics) references Stadistics (ID) on delete cascade
 );
