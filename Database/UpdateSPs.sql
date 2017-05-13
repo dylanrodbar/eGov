@@ -10,18 +10,19 @@ DELIMITER //
 
 CREATE PROCEDURE EGSP_UpdateUser (
 	pID INT,
-	pName VARCHAR(75),
 	pUserName VARCHAR(25),
-	pEmail VARCHAR(75),
+	pName VARCHAR(75),
+    pEmail VARCHAR(75),
 	pPassword VARCHAR(200),
 	pUserType INT)
 BEGIN
 	UPDATE Users
-			SET Name = pName,
+			SET 
 					UserName = pUserName,
+                    LastName = pName,
                     Email = pEmail,
                     Password = pPassword,
-                    UserType = pUserType
+                    FK_UserType = pUserType
     WHERE ID = pID;
 END
 //
