@@ -20,9 +20,15 @@ def Profile(request):
     cur = connection.cursor()
     cur.callproc('UserData', [user,])
     datos = cur.fetchall()
+    print(datos)
     name = datos[0][0]
     lastname = datos[0][1]
     email = datos[0][2]
+    path = datos[0][3]
+    points = str(datos[0][4])+"%"
+    print("holaaa")
+    print(points)
+
     
     cur.nextset()
     cur.callproc('PostsXUser', [user,])
@@ -32,7 +38,9 @@ def Profile(request):
         'name': name,
         'lastname': lastname,
         'email': email, 
-        'posts': posts
+        'posts': posts,
+        'path': path,
+        'points': points
     }
     template = loader.get_template('blogClient/profile.html')
     return HttpResponse(template.render(context, request))
@@ -44,6 +52,7 @@ template_name = 'blogClient/postProyectos.html'
 def Noticias(request):
     
     noticias = Posts.objects.all()[:25]
+
     template = loader.get_template('blogClient/noticias.html')
     print(noticias)
     context = {
@@ -64,17 +73,31 @@ def Proyectos(request):
 
 def NoticiasDetail(request, id):
     
+    numComentarios = 0
     post = get_object_or_404(Posts, pk=id)
     cur = connection.cursor()
     cur.callproc('commentsPost', [id,])
     comentarios = cur.fetchall()
+    
+    cur.nextset()
+    cur.callproc('numCommentPost', [id,])
+    num = cur.fetchall()
+    
+    cur.nextset()
+    cur.callproc('addViewPost', [id,])
+
     cur.close 
     template = loader.get_template('blogClient/PostNoticias.html')
     
+
+    if num != ():
+        numComentarios = num[0][1]
+
     context = {
     'post': post,
     'comentarios': comentarios,
-    'id': id
+    'id': id,
+    'numComentarios': numComentarios
     }
     return HttpResponse(template.render(context, request))
 
@@ -112,3 +135,20 @@ def insertPost(request):
     cur.close
     return HttpResponseRedirect(reverse('blogClient:noticias')) 
     
+
+def updateUser(request):
+    template = loader.get_template('blog/profile.html')
+    
+    user = int(request.session['Usuario'])
+    idTipoUsuario = int(request.session['IdTipoUsuario'])
+
+    username = request.POST.get('username')
+    lastname = request.POST.get('lastname')
+    email =  request.POST.get('email')
+    password = request.POST.get('password')
+
+    cur = connection.cursor()
+    cur.callproc('EGSP_UpdateUser', [user, username, lastname, email, password, idTipoUsuario])
+    cur.close
+
+    return HttpResponseRedirect(reverse('blog:Perfil'))

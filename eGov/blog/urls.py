@@ -8,6 +8,8 @@ urlpatterns = [
 
                 url(r'^insertPost/$', views.insertPost, name='insertPost'),
 
+                url(r'^updateUser/$', views.updateUser, name='updateUser'),
+
                 url(r'^proyectos/$', views.Proyectos, name='proyectos'),
 
                 url(r'^noticias/(?P<id>[0-9]+)$',views.NoticiasDetail, name='postNoticias'),

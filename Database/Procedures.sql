@@ -65,3 +65,28 @@ delimiter ;
 
 drop procedure SignIn
 call SignIn('Joanne', 'Germanotta', 'joanne123', 'joanne@gmail.com', 'joanne123')
+
+delimiter $$
+create procedure addViewPost(Post int)
+begin
+	Update Posts set views = views+1 where Posts.Id = Post;
+	
+end $$
+
+delimiter ;
+
+drop procedure addViewPost
+call addViewPost(2)
+
+delimiter $$
+create procedure UserData(User int)
+begin
+	select u.Name, u.LastName, u.Email, p.Path, u.Points from Users u, ProfilePictures p
+		where u.Id = User and u.FK_ProfilePicture = p.Id;
+	
+end $$
+
+delimiter ;
+
+drop procedure UserData
+call UserData(2)

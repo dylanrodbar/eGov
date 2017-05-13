@@ -17,13 +17,13 @@
 <legend>Perfil del usuario</legend>
 <div class="row">
   <div class="col-md-4" align= "center">
-		<img src="{% static 'home/img/profile.jpg' %}" class="img-circle" height="100" width="100" alt="Avatar">
+		<img src="{% static path %}" class="img-circle" height="100" width="100" alt="Avatar">
   </div>
   <div class="col-md-8">
   
-  <h3>Karina Zeledon
+  <h3> {{name}} {{lastname}}
   <a href="#" data-toggle="modal" data-target="#editar"><button type="submit" class="btn btn-danger" ><span class="glyphicon glyphicon-pencil"></span></button></h3></a>
-  <h4>kari@gmail.com</h4>
+  <h4>{{email}}</h4>
 	
 	<!--  Aca va el nombre y el apellido
 
@@ -40,7 +40,7 @@
 
 <div class="col-md-4">
 <div class="progress">
-  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: {{points}}">
     <span class="sr-only">80% Complete (danger)</span> 100 pts
   </div>
 </div>
@@ -61,25 +61,17 @@
 <div id="list" style="height: auto;
     max-height: 220px;
     overflow-x: hidden;">
-    <li class="list-group-item">
-	<div class="row">
-	<div class="col-md-8">Cras justo odio </div>
-	 <div class="col-md-4" align= "right">
-	 <button type="submit" class="btn btn-primary btn-sm" ><span class="glyphicon glyphicon-eye-open"></span></button>
-	 <button type="submit" class="btn btn-info btn-sm" ><span class="glyphicon glyphicon-pencil"></span></button>
-	 <button type="submit" class="btn btn-danger btn-sm" ><span class="glyphicon glyphicon-remove"></span></button>
-	 </div>
+    {% for post in posts %}
+		<li class="list-group-item">
+		<div class="row">
 	
-	</li>
-    <li class="list-group-item">Dapibus ac facilisis in</li>
-    <li class="list-group-item">Morbi leo risus</li>
-    <li class="list-group-item">Porta ac consectetur ac</li>
-    <li class="list-group-item">Vestibulum at eros</li>
-	  <li class="list-group-item">Cras justo odio</li>
-    <li class="list-group-item">Dapibus ac facilisis in</li>
-    <li class="list-group-item">Morbi leo risus</li>
-    <li class="list-group-item">Porta ac consectetur ac</li>
-    <li class="list-group-item">Vestibulum at eros</li>
+		<div class="col-md-8">{{post.0}} {{Visitas }}{{post.1}} </div>
+		<div class="col-md-4" align= "right">
+		<button type="submit" class="btn btn-primary btn-sm" ><span class="glyphicon glyphicon-eye-open"></span></button>
+		<button type="submit" class="btn btn-info btn-sm" ><span class="glyphicon glyphicon-pencil"></span></button>
+		<button type="submit" class="btn btn-danger btn-sm" ><span class="glyphicon glyphicon-remove"></span></button>
+		</div>
+	{% endfor %}
 	
 	
 	</div>
@@ -105,13 +97,13 @@
         			
         			<div class="modal-body">
         				
-	                    <form role="form" action="" method="post" class="login-form">
+	                    <form role="form" class="login-form" method='POST' action='{% url 'blog:updateUser'  %}'  > {% csrf_token %}
 						<div class="row">
 						<div class="col-md-4" align= "center">
-							<div class="form-group">
+							<div class="form-group"> 
 	                    		
 					  
-							<img src="{% static 'home/img/profile.jpg' %}" class="img-circle" height="100" width="100" alt="Avatar">
+							<img src="{% static path %}" class="img-circle" height="100" width="100" alt="Avatar">
 					 
 								  <br>
 								<div align="right">
@@ -122,21 +114,23 @@
 							
 							
 							<div class="col-md-8">
-	                    	<div class="form-group">
+	                    	
+							
+							<div class="form-group"> 
 	                    		<label class="sr-only" for="form-username">Usuario</label>
-	                        	<input type="text" name="form-username" placeholder="Usuario..." class="form-username form-control" id="form-username">
+	                        	<input type="text" name='username' placeholder="Usuario..." class="form-username form-control" id="form-username">
 	                        </div>
 	                        <div class="form-group">
 	                        	<label class="sr-only" for="form-password">Apellido</label>
-	                        	<input type="password" name="form-password" placeholder="Apellido..." class="form-password form-control" id="form-password">
+	                        	<input type="text" name='lastname' placeholder="Apellido..." class="form-password form-control" id="form-password">
 	                        </div>
 							<div class="form-group">
 	                        	<label class="sr-only" for="form-password">Email</label>
-	                        	<input type="password" name="form-password" placeholder="Email..." class="form-password form-control" id="form-password">
+	                        	<input type="text" name='email' placeholder="Email..." class="form-password form-control" id="form-password">
 	                        </div>
 							<div class="form-group">
 	                        	<label class="sr-only" for="form-password">Contraseña</label>
-	                        	<input type="password" name="form-password" placeholder="Contraseña..." class="form-password form-control" id="form-password">
+	                        	<input type="password" name='password' placeholder="Contraseña..." class="form-password form-control" id="form-password">
 	                        </div>
 							
 							 </div> </div>

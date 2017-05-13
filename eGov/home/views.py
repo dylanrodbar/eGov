@@ -23,6 +23,7 @@ def login(request):
     cur.close
     request.session['Usuario'] = login[0][0]
     request.session['TipoUsuario'] = login[0][1]
+    request.session['IdTipoUsuario'] = login[0][2]
     if login[0][1] == "Administrador":
         return HttpResponseRedirect(reverse('blog:noticias'))
     elif login[0][1] == "Cliente":
@@ -50,6 +51,7 @@ def signin(request):
    
     request.session['Usuario'] = login[0][0]
     request.session['TipoUsuario'] = login[0][1]
+    request.session['IdTipoUsuario'] = login[0][2]
     
     return HttpResponseRedirect(reverse('blogClient:noticias'))
     
