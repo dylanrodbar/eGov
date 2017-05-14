@@ -16,6 +16,16 @@ urlpatterns = [
 
                 url(r'^noticias/(?P<id>[0-9]+)$',views.NoticiasDetail, name='postNoticias'),
 
+                url(r'^noticias/aceptarNoticia/(?P<id>[0-9]+)$',views.aceptarNoticia, name='aceptarNoticia'),
+
+                url(r'^noticias/rechazarNoticia/(?P<id>[0-9]+)$',views.rechazarNoticia, name='rechazarNoticia'),
+
+                url(r'^proyectos/addYes/(?P<id>[0-9]+)/$', views.ProyectoAddYes, name='ProyectoAddYes'),
+
+                url(r'^proyectos/addNo/(?P<id>[0-9]+)/$', views.ProyectoAddNo, name='ProyectoAddNo'),
+
+                url(r'^proyectos/addUnknown/(?P<id>[0-9]+)/$', views.ProyectoAddUnknown, name='ProyectoAddUnknown'),
+
                 url(r'^noticias/deletePost/(?P<id>[0-9]+)$',views.deletePost, name='deletePost'),
 
                 url(r'^proyectos/(?P<id>[0-9]+)/$', views.ProyectosDetail, name='postProyectos'),

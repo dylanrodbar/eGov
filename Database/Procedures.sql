@@ -2,14 +2,12 @@ delimiter $$
 create procedure login(UserName varchar(25), Password varchar(200))
 begin
 	
-    select u.Id, ut.Name from User u, UserType ut  
-		where u.UserName = UserName and u.Password = Password and u.FK_TipoUsuario = ut.Id;
+    select u.Id, ut.Name, ut.Id from Users u, UserTypes ut  
+		where u.UserName = UserName and u.Password = Password and u.FK_UserType = ut.Id;
 	
 end $$
 
 delimiter ;
-drop procedure login;
-call login('albertorodbar', '2');
 
 
 delimiter $$
@@ -17,7 +15,7 @@ create procedure numCommentPost(Post int)
 begin
 	
     select p.Title, count(*) as NumeroComentarios
-		from Comment c, Post p
+		from Comments c, Posts p
 			where p.Id = Post and c.FK_Post = p.Id
 				group by p.Id;
 	
@@ -25,20 +23,15 @@ end $$
 
 delimiter ;
 
-drop procedure numCommentPost;
-call numCommentPost(1);
-call numCommentPost(2);
 
 delimiter $$
 create procedure commentsPost(Post int)
 begin
-	select c.Descripcion, u.Name, c.Date from Post p, Comment c, User u
+	select c.Description, u.Name, c.Date from Posts p, Comments c, Users u
 		where p.Id = Post and p.Id = c.FK_Post and c.FK_User = u.Id;
 end $$
 
 delimiter;
-call commentsPost(1);
-drop procedure commentsPost
 
 
 delimiter $$
@@ -50,21 +43,17 @@ begin
 end $$
 
 delimiter ;
-drop procedure PostsXUser
-call PostsXUser(2)
 
 delimiter $$
 create procedure SignIn(Name varchar(75), LastName varchar(75), UserName varchar(25), Email varchar(75), Password varchar(200))
 begin
 	insert into Users(Name, LastName, UserName, Email, PassWord, Points, FK_UserType, FK_ProfilePicture) 
-	values(Name, LastName, UserName, Email, Password, 0, 1, 1);
+	values(Name, LastName, UserName, Email, Password, 0, 2, 1);
 	
 end $$
 
 delimiter ;
 
-drop procedure SignIn
-call SignIn('Joanne', 'Germanotta', 'joanne123', 'joanne@gmail.com', 'joanne123')
 
 delimiter $$
 create procedure addViewPost(Post int)
@@ -75,8 +64,6 @@ end $$
 
 delimiter ;
 
-drop procedure addViewPost
-call addViewPost(2)
 
 delimiter $$
 create procedure UserData(User int)
@@ -88,8 +75,6 @@ end $$
 
 delimiter ;
 
-drop procedure UserData
-call UserData(2)
 
 delimiter $$
 create procedure deletePost(Post int)
@@ -127,25 +112,175 @@ BEGIN
 	Select p.Id from Posts p order by Id desc limit 1;
 END $$
 delimiter ;
-drop procedure selectLastPost
-call selectLastPost()
 
+delimiter $$
 
 CREATE PROCEDURE selectLawProjects ()
 BEGIN
 	select p.title, p.description, p.content, lp.link, p.Date, lp.FK_Post from Posts p,  LawProjects lp where p.Id = lp.FK_Post;
 END $$
 delimiter ;
-drop procedure selectLawProjects
-call selectLawProjects()
 
 delimiter $$
-CREATE PROCEDURE selectNews ()
+CREATE PROCEDURE selectNewsClient ()
 BEGIN
 	select p.title, p.description, p.content, p.Date, p.Id from Posts p,  LawProjects lp where p.Id not in
-		(select FK_Post from LawProjects)
+		(select FK_Post from LawProjects) and p.State = 'Aceptado'
     group by p.Id;
+		
 END $$
 delimiter ;
-drop procedure selectNews
-call selectNews()
+
+
+delimiter $$
+CREATE PROCEDURE selectNewsAdmin ()
+BEGIN
+	if not exists (select * from LawProjects) then
+
+		select p.title, p.description, p.content, p.Date, p.Id from Posts p where p.State = 'Pendiente';
+	
+    else
+		select p.title, p.description, p.content, p.Date, p.Id from Posts p,  LawProjects lp where p.Id not in
+			(select FK_Post from LawProjects) and p.State = 'Pendiente'
+		group by p.Id;
+	end if;
+END $$
+delimiter ;
+
+
+
+delimiter $$
+create procedure getStadisticsProject(Post int)
+begin
+	Declare resultYes decimal;
+    Declare resultNo decimal;
+	Declare resultUnknown decimal;
+	
+    Declare yes int;
+    Declare no int;
+    Declare unknown int;
+    Declare total int;
+    
+    select lp.Yes from LawProjects lp where lp.FK_Post = Post into yes;
+    select lp.No from LawProjects lp where lp.FK_Post = Post into no;
+    select lp.Unknown from LawProjects lp where lp.FK_Post = Post into unknown;
+	
+    set total = yes+no+unknown;
+    
+    
+    
+	set resultYes = (yes*100)/(total);
+    set resultNo = (no*100)/(total);
+    set resultUnknown = (unknown*100)/(total);
+    
+    select resultYes as 'Yes', resultNo as 'No', resultUnknown as 'Unknown';
+    
+end $$
+
+delimiter ;
+
+
+
+delimiter $$
+create procedure addYesProject(Post int)
+begin
+	Update LawProjects set Yes = Yes+1 where LawProjects.FK_Post = Post;
+	
+end $$
+
+delimiter ;
+
+delimiter $$
+create procedure addNoProject(Post int)
+begin
+	Update LawProjects set No = No+1 where LawProjects.FK_Post = Post;
+	
+end $$
+
+delimiter ;
+
+delimiter $$
+create procedure addUnknownProject(Post int)
+begin
+	Update LawProjects set Unknown = Unknown+1 where LawProjects.FK_Post = Post;
+	
+end $$
+
+delimiter ;
+
+
+
+delimiter $$
+create procedure acceptNew(Post int)
+begin
+	Update Posts set State = 'Aceptado' where Id = Post;
+	
+end $$
+
+delimiter ;
+
+delimiter $$
+create procedure rejectNew(Post int)
+begin
+	Update Posts set State = 'Rechazado' where Id = Post;
+	
+end $$
+
+delimiter ;
+
+
+delimiter $$
+create procedure EInsertPost(pTitle VARCHAR(50),
+    pDescription VARCHAR(200),
+    pContent VARCHAR(5000),
+    pUser INT)
+begin
+	insert into Posts(Title, Description, Content, FK_User, State, Date, Views) values(pTitle, pDescription, pContent, pUser, 'Pendiente', CURDATE(), 0);
+end $$
+delimiter ;
+
+delimiter $$
+create procedure EInsertPostAdmin(pTitle VARCHAR(50),
+    pDescription VARCHAR(200),
+    pContent VARCHAR(5000),
+    pUser INT)
+begin
+	insert into Posts(Title, Description, Content, FK_User, State, Date, Views) values(pTitle, pDescription, pContent, pUser, 'Aceptado', CURDATE(), 0);
+end $$
+delimiter ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE EGSP_UpdateUser (
+	pID INT,
+	pUserName VARCHAR(25),
+	pName VARCHAR(75),
+    pEmail VARCHAR(75),
+	pPassword VARCHAR(200),
+	pUserType INT)
+BEGIN
+	UPDATE Users
+			SET 
+					UserName = pUserName,
+                    LastName = pName,
+                    Email = pEmail,
+                    Password = pPassword,
+                    FK_UserType = pUserType
+    WHERE ID = pID;
+END
+//
+
+DELIMITER //
+
+CREATE PROCEDURE EGSP_InsertComment (
+	pDescription VARCHAR(500),
+    pUser INT,
+    pPost INT)
+BEGIN
+	INSERT INTO Comments (Description, FK_User, FK_Post, Date)
+    VALUES (pDescription, pUser, pPost, CURDATE());
+END
+//
+
+DELIMITER ;

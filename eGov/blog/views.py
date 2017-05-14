@@ -54,7 +54,7 @@ def Noticias(request):
     template = loader.get_template('blog/noticias.html')
 
     cur = connection.cursor()
-    cur.callproc('selectNews', [])
+    cur.callproc('selectNewsAdmin', [])
     noticias = cur.fetchall()
     cur.close
     
@@ -100,7 +100,7 @@ def NoticiasDetail(request, id):
     cur.callproc('addViewPost', [id,])
     
     cur.close 
-    template = loader.get_template('blogClient/PostNoticias.html')
+    template = loader.get_template('blog/PostNoticias.html')
     
 
     if num != ():
@@ -117,6 +117,9 @@ def NoticiasDetail(request, id):
 def ProyectosDetail(request, id):
     numComentarios = 0
     post = get_object_or_404(Posts, pk=id)
+    template = loader.get_template('blog/PostProyectos.html')
+    
+
     cur = connection.cursor()
     cur.callproc('commentsPost', [id,])
     comentarios = cur.fetchall()
@@ -127,9 +130,11 @@ def ProyectosDetail(request, id):
     
     cur.nextset()
     cur.callproc('addViewPost', [id,])
-    
-    cur.close 
-    template = loader.get_template('blog/postProyectos.html')
+
+    cur.nextset()
+    cur.callproc('getStadisticsProject', [id,])
+    estadisticas = cur.fetchall()
+    cur.close
     
 
     if num != ():
@@ -139,7 +144,8 @@ def ProyectosDetail(request, id):
     'post': post,
     'comentarios': comentarios,
     'id': id,
-    'numComentarios': numComentarios
+    'numComentarios': numComentarios,
+    'estadisticas': estadisticas[0]
     }
     return HttpResponse(template.render(context, request))
 
@@ -164,7 +170,7 @@ def insertPost(request):
     content = request.POST.get('content')
     user = int(request.session['Usuario'])
     cur = connection.cursor()
-    cur.callproc('EInsertPost', [title, comment, content, user])
+    cur.callproc('EInsertPostAdmin', [title, comment, content, user])
     cur.close
     return HttpResponseRedirect(reverse('blog:noticias')) 
 
@@ -179,7 +185,7 @@ def insertProject(request):
     user = int(request.session['Usuario'])
     
     cur = connection.cursor()
-    cur.callproc('EInsertPost', [title, comment, content, user])
+    cur.callproc('EInsertPostAdmin', [title, comment, content, user])
     
     cur.nextset()
     
@@ -244,3 +250,48 @@ def deletePost(request, id):
     cur.close
 
     return HttpResponseRedirect(reverse('blog:Perfil'))
+
+
+def ProyectoAddYes(request, id):
+    
+    cur = connection.cursor()
+    cur.callproc('addYesProject', [id])
+    cur.close
+
+
+    return HttpResponseRedirect(reverse('blogClient:postProyectos', args=[id])) 
+    
+
+def ProyectoAddNo(request, id):
+    
+    cur = connection.cursor()
+    cur.callproc('addNoProject', [id])
+    cur.close
+
+    return HttpResponseRedirect(reverse('blogClient:postProyectos', args=[id])) 
+    
+
+def ProyectoAddUnknown(request, id):
+    
+    cur = connection.cursor()
+    cur.callproc('addUnknownProject', [id])
+    cur.close
+
+    return HttpResponseRedirect(reverse('blogClient:postProyectos', args=[id])) 
+
+
+def aceptarNoticia(request, id):
+
+    cur = connection.cursor()
+    cur.callproc('acceptNew', [id])
+    cur.close
+
+    return HttpResponseRedirect(reverse('blog:noticias'))
+
+def rechazarNoticia(request, id):
+
+    cur = connection.cursor()
+    cur.callproc('rejectNew', [id])
+    cur.close
+
+    return HttpResponseRedirect(reverse('blog:noticias'))

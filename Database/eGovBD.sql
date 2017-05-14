@@ -1,3 +1,6 @@
+create database eGov;
+use eGov;
+
 create table UserTypes
 (
 	ID int auto_increment,
@@ -28,8 +31,10 @@ create table Users
 	foreign key (FK_ProfilePicture) references ProfilePictures (ID) on delete cascade
 );
 
+insert into ProfilePictures(Path) values('C:/Users/user/Documents/GitHub/eGov/eGov/home/static/home/img/profile.jpg')
 
-
+insert into Users(Name, LastName, UserName, Email, Password, Points, FK_UserType, FK_ProfilePicture)
+values('Dylan', 'Rodríguez', 'dylanrodbar', 'dylanrodbar@gmail.com', '1', 0, 1, 1)
 
 create table Posts
 (
@@ -39,10 +44,13 @@ create table Posts
 	Content varchar(5000),
 	Views int,
 	Date date,
+    State varchar(20),
 	FK_User int,
 	primary key (ID),
-	foreign key (FK_User) references Users (ID) on delete cascade 
+	foreign key (FK_User) references Users (ID) on delete cascade
 );
+
+
 
 create table Comments
 (
@@ -101,3 +109,6 @@ create table LawProjects
 	primary key (FK_Post),
 	foreign key (FK_Post) references Posts (ID) on delete cascade
 );
+
+
+

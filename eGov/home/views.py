@@ -28,12 +28,14 @@ def login(request):
     login = cur.callproc('login', [username, password])
     login = cur.fetchall()
     cur.close
+    print(login)
     request.session['Usuario'] = login[0][0]
     request.session['TipoUsuario'] = login[0][1]
     request.session['IdTipoUsuario'] = login[0][2]
     if login[0][1] == "Administrador":
         return HttpResponseRedirect(reverse('blog:noticias'))
     elif login[0][1] == "Cliente":
+        print("ENTRSLKDS A CLIENTKADSD")
         return HttpResponseRedirect(reverse('blogClient:noticias'))
 
 def signin(request):

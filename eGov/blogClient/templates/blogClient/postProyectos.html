@@ -15,11 +15,11 @@
 		
 			<br><br>
 		<div align="right">
-			<a  href="#"><span class="glyphicon glyphicon-thumbs-up"></span> Aprueba</a>
+			<a  href="/blogClient/proyectos/addYes/{{id}}"><span class="glyphicon glyphicon-thumbs-up"></span> Apruebasss</a>
 			&nbsp&nbsp
-			<a href="#"><span class="glyphicon glyphicon-transfer"></span> Neutral</a>
+			<a href="/blogClient/proyectos/addUnknown/{{id}}"><span class="glyphicon glyphicon-transfer"></span> Neutral</a>
 			&nbsp&nbsp
-			<a href="#"><span class="glyphicon glyphicon-thumbs-down"></span> Desaprueba</a>
+			<a href="/blogClient/proyectos/addNo/{{id}}"><span class="glyphicon glyphicon-thumbs-down"></span> Desaprueba</a>
 		</div>
    
 			
@@ -27,31 +27,31 @@
 	<div class="col-md-4" style="padding-top:75px;">
 				<div class="progress">
 		  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
-		  aria-valuemin="0" aria-valuemax="100" style="width:40%">
-			40% Aprueba
+		  aria-valuemin="0" aria-valuemax="100" style="width: {{estadisticas.0}}%">
+			{{estadisticas.0}}% Aprueba
 		  </div>
 		</div>
 
 		<div class="progress">
 		  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50"
-		  aria-valuemin="0" aria-valuemax="100" style="width:50%">
-			50% Neutral
+		  aria-valuemin="0" aria-valuemax="100" style="width: {{estadisticas.2}}%">
+			{{estadisticas.2}}% Neutral
 		  </div>
 		</div>
 
 		<div class="progress">
 		  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70"
-		  aria-valuemin="0" aria-valuemax="100" style="width:70%">
-			70% Desaprueba
+		  aria-valuemin="0" aria-valuemax="100" style="width: {{estadisticas.1}}%">
+			{{estadisticas.1}}% Desaprueba
 		  </div>
 		</div>
 	 </div>
 </div>
 	
 	<h4>Deja un comentario</h4>
-      <form role="form">
+      <form method='POST' action='{% url 'blogClient:insertComment' id %}'  > {% csrf_token %} 
         <div class="form-group">
-          <textarea class="form-control" rows="3" required></textarea>
+          <textarea class="form-control" name='comment' rows="3" required></textarea>
         </div>
 		<div align="right">
 			    <button type="submit" class="btn btn-danger">Enviar</button>
@@ -60,15 +60,15 @@
 	
 	<p><span class="badge">2</span> Comentarios:</p><br>
 	<div class="row">
-	{% for comment in post.comment_set.all %}
+	{% for comment in comentarios %}
 	
 	      
         <div class="col-sm-2 text-center">
           <img src="{% static 'home/img/profile.jpg' %}" class="img-circle" height="65" width="65" alt="Avatar">
         </div>
         <div class="col-sm-10">
-          <h4>{{comment.user }}   <small>{{comment.date}}</small></h4>
-          <p>{{comment.description}}</p>
+          <h4>{{comment.1 }}   <small>{{comment.2}}</small></h4>
+          <p>{{comment.0}}</p>
           <br>
         </div>
         

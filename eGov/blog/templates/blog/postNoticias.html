@@ -12,6 +12,14 @@
 </div>
 	<br><br>
 	
+	<div align="right">
+			    <a href="/blog/noticias/aceptarNoticia/{{id}}" <button type="submit" class="btn btn-danger">Aceptar</button></a>
+	</div>
+	
+	<div align="right">
+			    <a href="/blog/noticias/rechazarNoticia/{{id}}" <button type="submit" class="btn btn-danger">Rechazar</button></a>
+	</div>
+	
 	<h4>Deja un comentario</h4>
       <form method='POST' action='{% url 'blog:insertComment' id %}'  > {% csrf_token %} 
         <div class="form-group">
@@ -21,6 +29,8 @@
 			    <button type="submit" class="btn btn-danger">Enviar</button>
 		</div>
       </form>
+	  
+	  
 	
 	<p><span class="badge">{{numComentarios}}</span> Comentarios:</p><br>
 	<div class="row">

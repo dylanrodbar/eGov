@@ -179,8 +179,10 @@ class Images(models.Model):
 
 class Lawprojects(models.Model):
     fk_post = models.ForeignKey('Posts', models.DO_NOTHING, db_column='FK_Post', primary_key=True)  # Field name made lowercase.
-    link = models.CharField(db_column='Link', max_length=200, blank=True, null=True)  # Field name made lowercase.
-    fk_stadistics = models.ForeignKey('Stadistics', models.DO_NOTHING, db_column='FK_Stadistics', blank=True, null=True)  # Field name made lowercase.
+    link = models.CharField(db_column='Link', max_length=2000, blank=True, null=True)  # Field name made lowercase.
+    yes = models.IntegerField(db_column='Yes', blank=True, null=True)  # Field name made lowercase.
+    no = models.IntegerField(db_column='No', blank=True, null=True)  # Field name made lowercase.
+    unknown = models.IntegerField(db_column='Unknown', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -194,6 +196,7 @@ class Posts(models.Model):
     content = models.CharField(db_column='Content', max_length=5000, blank=True, null=True)  # Field name made lowercase.
     views = models.IntegerField(db_column='Views', blank=True, null=True)  # Field name made lowercase.
     date = models.DateField(db_column='Date', blank=True, null=True)  # Field name made lowercase.
+    state = models.CharField(db_column='State', max_length=20, blank=True, null=True)  # Field name made lowercase.
     fk_user = models.ForeignKey('Users', models.DO_NOTHING, db_column='FK_User', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
