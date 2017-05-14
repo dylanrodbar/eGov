@@ -7,7 +7,14 @@ from django.db import connection
 from django.core.urlresolvers import reverse
 
 def index(request):
-    return render(request, 'home/inicio.html')
+    
+    print("ENTRE")
+    template = loader.get_template('home/inicio.html')
+    context = {}
+    
+
+    return HttpResponse(template.render(context, request))
+
 
 
 def login(request):
@@ -59,6 +66,9 @@ def signin(request):
     
     
 def redirectNoticias(request):
+    
+    template = loader.get_template('home/header.html')
+    
     if request.session['TipoUsuario'] == "Administrador":
         return HttpResponseRedirect(reverse('blog:noticias'))
 
@@ -66,6 +76,9 @@ def redirectNoticias(request):
         return HttpResponseRedirect(reverse('blogClient:noticias'))
 
 def redirectProyectos(request):
+    
+    template = loader.get_template('home/header.html')
+    
     if request.session['TipoUsuario'] == "Administrador":
         return HttpResponseRedirect(reverse('blog:proyectos'))
 
@@ -73,6 +86,9 @@ def redirectProyectos(request):
         return HttpResponseRedirect(reverse('blogClient:proyectos'))
 
 def redirectPerfil(request):
+    
+    template = loader.get_template('home/header.html')
+    
     print(request.session['TipoUsuario'])
     if request.session['TipoUsuario'] == "Administrador":
         return HttpResponseRedirect(reverse('blog:Perfil'))
@@ -81,3 +97,14 @@ def redirectPerfil(request):
         return HttpResponseRedirect(reverse('blogClient:Perfil'))
     
     
+def salir(request):
+
+    template = loader.get_template('home/header.html')
+    
+    del request.session['Usuario']
+    del request.session['TipoUsuario']
+    del request.session['IdTipoUsuario']
+
+    request.session.modified = True
+
+    return HttpResponseRedirect(reverse('home:index'))

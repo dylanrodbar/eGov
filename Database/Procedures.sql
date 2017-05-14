@@ -44,14 +44,14 @@ drop procedure commentsPost
 delimiter $$
 create procedure PostsXUser(User int)
 begin
-	select p.Title from Posts p
+	select p.Title, p.Views, p.Id from Posts p
 		where p.FK_User = User;
 	
 end $$
 
 delimiter ;
 drop procedure PostsXUser
-call PostsXUser(1)
+call PostsXUser(2)
 
 delimiter $$
 create procedure SignIn(Name varchar(75), LastName varchar(75), UserName varchar(25), Email varchar(75), Password varchar(200))
@@ -90,3 +90,62 @@ delimiter ;
 
 drop procedure UserData
 call UserData(2)
+
+delimiter $$
+create procedure deletePost(Post int)
+begin
+	delete from Posts where Id = Post;
+	
+end $$
+
+delimiter ;
+
+delimiter $$
+CREATE PROCEDURE EInsertLawProject (
+	Post int,
+    Link varchar(3000))
+BEGIN
+	INSERT INTO LawProjects (FK_Post, Link, Yes, No, Unknown)
+    VALUES (Post, Link, 0, 0, 0);
+END $$
+delimiter ;
+
+delimiter $$
+create procedure updatePost(Post int, title varchar(50), description varchar(200), content varchar(5000) )
+begin
+	
+    update Posts set Title = title, Description = description, Content = content where Id = Post;
+	
+end $$
+
+delimiter ;
+
+
+delimiter $$
+CREATE PROCEDURE selectLastPost ()
+BEGIN
+	Select p.Id from Posts p order by Id desc limit 1;
+END $$
+delimiter ;
+drop procedure selectLastPost
+call selectLastPost()
+
+
+CREATE PROCEDURE selectLawProjects ()
+BEGIN
+	select p.title, p.description, p.content, lp.link, p.Date, lp.FK_Post from Posts p,  LawProjects lp where p.Id = lp.FK_Post;
+END $$
+delimiter ;
+drop procedure selectLawProjects
+call selectLawProjects()
+
+delimiter $$
+CREATE PROCEDURE selectNews ()
+BEGIN
+	select p.title, p.description, p.content, p.Date, p.Id from Posts p,  LawProjects lp where p.Id not in
+		(select FK_Post from LawProjects)
+    group by p.Id;
+END $$
+delimiter ;
+drop procedure selectNews
+call selectNews()

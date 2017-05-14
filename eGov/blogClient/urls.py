@@ -8,9 +8,14 @@ urlpatterns = [
 
                 url(r'^insertPost/$', views.insertPost, name='insertPost'),
 
+                url(r'^updateUser/$', views.updateUser, name='updateUser'),
+
+
                 url(r'^proyectos/$', views.Proyectos, name='proyectos'),
 
                 url(r'^noticias/(?P<id>[0-9]+)$',views.NoticiasDetail, name='postNoticias'),
+
+                url(r'^noticias/deletePost/(?P<id>[0-9]+)$',views.deletePost, name='deletePost'),
 
 
                 url(r'^proyectos/(?P<id>[0-9]+)/$', views.ProyectosDetail, name='postProyectos'),
@@ -19,6 +24,9 @@ urlpatterns = [
 
                 url(r'^noticias/new/$', views.newNoticia, name='newN'),
 
+                url(r'^noticias/editar/(?P<id>[0-9]+)$', views.editarNoticia, name='editarNoticia'),
+
+                url(r'^noticias/editarEsp/(?P<id>[0-9]+)$', views.editarNoticiaEsp, name='editarNoticiaEsp'),
 
                 url(r'^perfil/$', views.Profile, name='Perfil'),
 

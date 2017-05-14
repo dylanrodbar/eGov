@@ -7,11 +7,11 @@
   <div class="col-md-8">
  
 
-		<h3>{{ post.title }}</h3>
+		<h3>{{ post.0 }}</h3>
 		<h6> on {{ post.date }}</h6>
 
 		
-			{{ post.content|safe|linebreaks}}
+			{{ post.2|safe|linebreaks}}
 		
 			<br><br>
 		<div align="right">
@@ -58,7 +58,7 @@
 		</div>
       </form>
 	
-	<p><span class="badge">2</span> Comentarios:</p><br>
+	<p><span class="badge">{{numComentarios}}</span> Comentarios:</p><br>
 	<div class="row">
 	{% for comment in post.comment_set.all %}
 	

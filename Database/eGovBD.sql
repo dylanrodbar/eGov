@@ -94,9 +94,10 @@ create table Stadistics
 create table LawProjects
 (
 	FK_Post int,
-	Link varchar(200),
-	FK_Stadistics int,
+	Link varchar(2000),
+    Yes int,
+    No int,
+    Unknown int,
 	primary key (FK_Post),
-	foreign key (FK_Post) references Posts (ID) on delete cascade,
-	foreign key (FK_Stadistics) references Stadistics (ID) on delete cascade
+	foreign key (FK_Post) references Posts (ID) on delete cascade
 );

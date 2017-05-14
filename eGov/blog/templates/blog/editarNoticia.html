@@ -1,0 +1,115 @@
+{% extends "home/header.html" %}
+
+{% block content %}
+
+<br>
+<br>
+<div class="container">
+
+    <form class="well form-horizontal" method='POST' action='{% url 'blog:editarNoticiaEsp' id %}'  > {% csrf_token %} 
+	
+	
+<fieldset>
+
+<!-- Form Name -->
+
+	<!-- Text input-->
+
+	<div class="form-group">
+	  <label class="col-md-2 control-label">Titulo</label>  
+	  <div class="col-md-6 inputGroupContainer">
+	  <div class="input-group">
+	  <span class="input-group-addon" id="sizing-addon1"><i class="glyphicon glyphicon-tags"></i></span>
+	  <input  name='title' placeholder="Nombre" class="form-control"  type="text">
+		</div>
+	  
+	</div>
+	</div>
+
+
+
+
+
+
+
+	  
+	<div class="form-group">
+	  <label class="col-md-2 control-label">Descripcion</label>
+		<div class="col-md-6 inputGroupContainer">
+		<div class="input-group">
+			<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+				<textarea class="form-control" name='description' placeholder="Escriba su mensaje" rows="10"></textarea>
+	  </div>
+	  </div>
+	</div>
+	
+	<div class="form-group">
+	  <label class="col-md-2 control-label">Contenido</label>
+		<div class="col-md-6 inputGroupContainer">
+		<div class="input-group">
+			<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+				<textarea class="form-control" name='content' placeholder="Escriba su mensaje" rows="10"></textarea>
+	  </div>
+	  </div>
+	</div>
+
+	
+<div class="form-group">
+
+
+  <label class="col-md-2 control-label">Tags</label>
+  
+  <div class="col-md-2">
+  
+  <div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    Dropdown
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    <li><a href="#">Action</a></li>
+    <li><a href="#">Another action</a></li>
+    <li><a href="#">Something else here</a></li>
+    <li role="separator" class="divider"></li>
+    <li><a href="#">Separated link</a></li>
+  </ul>
+  
+</div>
+
+  
+</div>
+
+  <div class="col-md-2" align= "left">
+	 <button type="submit" class="btn btn-primary btn-sm" ><span class="glyphicon glyphicon-plus"></span></button>
+	 <button type="submit" class="btn btn-danger btn-sm" ><span class="glyphicon glyphicon-remove"></span></button>
+	 </div>
+
+  <br>
+  <br>
+  
+  <div class="col-md-2">
+   </div>
+   
+    <div class="col-md-6 inputGroupContainer">
+    <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+        	<textarea class="form-control" name="comment" placeholder="TAGS" rows="2"></textarea>
+  </div>
+  </div>
+  
+</div>
+	<!-- Button -->
+
+	<div class="form-group">
+	  <label class="col-md-2 control-label"></label>
+	  <div class="col-md-7" align="right">
+		<button type="submit" class="btn btn-danger" >Editar <span class="glyphicon glyphicon-send"></span></button>
+	  </div>
+	</div>
+
+</fieldset>
+</form>
+</div>
+	</div><!-- /.container -->
+
+{% endblock %}

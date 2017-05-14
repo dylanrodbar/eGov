@@ -68,3 +68,14 @@ BEGIN
 	WHERE LP.FK_Post = pPostID;
 END
 //
+
+
+delimiter $$
+create procedure updatePost(Post int, title varchar(50), description varchar(200), content varchar(5000) )
+begin
+	
+    update Posts set Title = title, Description = description, Content = content where Id = Post;
+	
+end $$
+
+delimiter ;

@@ -51,14 +51,21 @@ template_name = 'blogClient/postProyectos.html'
 
 def Noticias(request):
     
-    noticias = Posts.objects.all()[:25]
+    template = loader.get_template('blog/noticias.html')
 
-    template = loader.get_template('blogClient/noticias.html')
+    cur = connection.cursor()
+    cur.callproc('selectNews', [])
+    noticias = cur.fetchall()
+    cur.close
+    
+
+
     print(noticias)
     context = {
-    	'noticias': noticias 
+        'noticias': noticias 
     }
     return HttpResponse(template.render(context, request))
+
 
 def Proyectos(request):
     proyectos = Posts.objects.all()[:25]
@@ -152,3 +159,34 @@ def updateUser(request):
     cur.close
 
     return HttpResponseRedirect(reverse('blog:Perfil'))
+
+def editarNoticia(request, id):
+    
+    template = loader.get_template('blog/editarNoticia.html')
+    context = {
+        'id': id
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def editarNoticiaEsp(request, id):
+
+    template = loader.get_template('blog/editarNoticia.html')
+    title = request.POST.get('title')
+    comment = request.POST.get('description')
+    content = request.POST.get('content')
+
+    cur = connection.cursor()
+    cur.callproc('updatePost', [id, title, comment, content])
+    cur.close
+    return HttpResponseRedirect(reverse('blog:Perfil'))
+
+def deletePost(request, id):
+
+    template = loader.get_template('blog/profile.html')
+    context = {}
+    cur = connection.cursor()
+    cur.callproc('deletePost', [id])
+    cur.close
+
+    return HttpResponseRedirect(reverse('blogClient:Perfil'))

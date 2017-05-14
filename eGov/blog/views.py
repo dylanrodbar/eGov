@@ -51,8 +51,15 @@ template_name = 'blog/postProyectos.html'
 
 def Noticias(request):
     
-    noticias = Posts.objects.all()[:25]
     template = loader.get_template('blog/noticias.html')
+
+    cur = connection.cursor()
+    cur.callproc('selectNews', [])
+    noticias = cur.fetchall()
+    cur.close
+    
+
+
     print(noticias)
     context = {
     	'noticias': noticias 
@@ -60,9 +67,16 @@ def Noticias(request):
     return HttpResponse(template.render(context, request))
 
 def Proyectos(request):
-    proyectos = Posts.objects.all()[:25]
+    
     template = loader.get_template('blog/proyectos.html')
 	
+    cur = connection.cursor()
+    cur.callproc('selectLawProjects', [])
+    proyectos = cur.fetchall()
+    cur.close
+    
+    
+    
     context = {
     	'proyectos': proyectos 
     }
@@ -101,10 +115,31 @@ def NoticiasDetail(request, id):
     return HttpResponse(template.render(context, request))
 
 def ProyectosDetail(request, id):
+    numComentarios = 0
     post = get_object_or_404(Posts, pk=id)
-    template = loader.get_template('blog/PostProyectos.html')
+    cur = connection.cursor()
+    cur.callproc('commentsPost', [id,])
+    comentarios = cur.fetchall()
+    
+    cur.nextset()
+    cur.callproc('numCommentPost', [id,])
+    num = cur.fetchall()
+    
+    cur.nextset()
+    cur.callproc('addViewPost', [id,])
+    
+    cur.close 
+    template = loader.get_template('blog/postProyectos.html')
+    
+
+    if num != ():
+        numComentarios = num[0][1]
+
     context = {
-    'post': post
+    'post': post,
+    'comentarios': comentarios,
+    'id': id,
+    'numComentarios': numComentarios
     }
     return HttpResponse(template.render(context, request))
 
@@ -123,7 +158,6 @@ def insertComment(request, id):
     
 
 def insertPost(request):
-    print("Entra a insert post")
     template = loader.get_template('blog/newNoticia.html')
     title = request.POST.get('title')
     comment = request.POST.get('comment')
@@ -132,6 +166,34 @@ def insertPost(request):
     cur = connection.cursor()
     cur.callproc('EInsertPost', [title, comment, content, user])
     cur.close
+    return HttpResponseRedirect(reverse('blog:noticias')) 
+
+
+def insertProject(request):
+    template = loader.get_template('blog/newNoticia.html')
+    title = request.POST.get('title')
+    comment = request.POST.get('comment')
+    content = request.POST.get('content')
+    link = request.POST.get('link')
+
+    user = int(request.session['Usuario'])
+    
+    cur = connection.cursor()
+    cur.callproc('EInsertPost', [title, comment, content, user])
+    
+    cur.nextset()
+    
+    cur.callproc('selectLastPost', [])
+    Post = cur.fetchall()
+    idPost = int(Post[0][0])
+    
+    cur.nextset()
+
+    cur.callproc('EInsertLawProject', [idPost, link])
+    
+    cur.close
+
+    
     return HttpResponseRedirect(reverse('blog:noticias')) 
     
 def updateUser(request):
@@ -147,6 +209,38 @@ def updateUser(request):
 
     cur = connection.cursor()
     cur.callproc('EGSP_UpdateUser', [user, username, lastname, email, password, idTipoUsuario])
+    cur.close
+
+    return HttpResponseRedirect(reverse('blog:Perfil'))
+
+def editarNoticia(request, id):
+    
+    template = loader.get_template('blog/editarNoticia.html')
+    context = {
+        'id': id
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def editarNoticiaEsp(request, id):
+
+    template = loader.get_template('blog/editarNoticia.html')
+    title = request.POST.get('title')
+    comment = request.POST.get('description')
+    content = request.POST.get('content')
+
+    cur = connection.cursor()
+    cur.callproc('updatePost', [id, title, comment, content])
+    cur.close
+    return HttpResponseRedirect(reverse('blog:Perfil'))
+
+
+def deletePost(request, id):
+
+    template = loader.get_template('blog/profile.html')
+    context = {}
+    cur = connection.cursor()
+    cur.callproc('deletePost', [id])
     cur.close
 
     return HttpResponseRedirect(reverse('blog:Perfil'))
