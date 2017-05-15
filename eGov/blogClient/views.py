@@ -265,3 +265,4 @@ def ProyectoAddUnknown(request, id):
 
     return HttpResponseRedirect(reverse('blogClient:postProyectos', args=[id])) 
     
+
