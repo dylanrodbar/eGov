@@ -37,7 +37,7 @@ delimiter;
 delimiter $$
 create procedure PostsXUser(User int)
 begin
-	select p.Title, p.Views, p.Id from Posts p
+	select p.Title, p.Views, p.Id, p.State from Posts p
 		where p.FK_User = User;
 	
 end $$
@@ -120,6 +120,8 @@ BEGIN
 	select p.title, p.description, p.content, lp.link, p.Date, lp.FK_Post from Posts p,  LawProjects lp where p.Id = lp.FK_Post;
 END $$
 delimiter ;
+drop procedure selectLawProjects
+call selectLawProjects()
 
 delimiter $$
 CREATE PROCEDURE selectNewsClient ()
@@ -149,6 +151,7 @@ delimiter ;
 
 
 
+
 delimiter $$
 create procedure getStadisticsProject(Post int)
 begin
@@ -161,23 +164,34 @@ begin
     Declare unknown int;
     Declare total int;
     
+    
+    set resultYes = 0;
+    set ResultNo = 0;
+    set ResultUnknown = 0;
+    
     select lp.Yes from LawProjects lp where lp.FK_Post = Post into yes;
     select lp.No from LawProjects lp where lp.FK_Post = Post into no;
     select lp.Unknown from LawProjects lp where lp.FK_Post = Post into unknown;
 	
     set total = yes+no+unknown;
     
-    
-    
-	set resultYes = (yes*100)/(total);
-    set resultNo = (no*100)/(total);
-    set resultUnknown = (unknown*100)/(total);
-    
+    if total <> 0 then
+		
+		set resultYes = (yes*100)/(total);
+		set resultNo = (no*100)/(total);
+		set resultUnknown = (unknown*100)/(total);
+	end if;
+		
     select resultYes as 'Yes', resultNo as 'No', resultUnknown as 'Unknown';
     
 end $$
 
 delimiter ;
+drop procedure getStadisticsProject 
+use eGov
+select * from LawProjects
+call getStadisticsProject(19)
+call login('gaga', 'gaga')
 
 
 
