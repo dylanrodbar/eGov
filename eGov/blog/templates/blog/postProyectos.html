@@ -26,22 +26,22 @@
 	</div>
 	<div class="col-md-4" style="padding-top:75px;">
 				<div class="progress">
-		  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
-		  aria-valuemin="0" aria-valuemax="100" style="width:40%">
+		  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{estadisticas.0}}"
+		  aria-valuemin="0" aria-valuemax="100" style="width:{{estadisticas.0}}%">
 			{{estadisticas.0}}% Aprueba
 		  </div>
 		</div>
 
 		<div class="progress">
-		  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50"
-		  aria-valuemin="0" aria-valuemax="100" style="width:50%">
+		  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{estadisticas.2}}"
+		  aria-valuemin="0" aria-valuemax="100" style="width:{{estadisticas.2}}%">
 			{{estadisticas.2}}% Neutral
 		  </div>
 		</div>
 
 		<div class="progress">
-		  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70"
-		  aria-valuemin="0" aria-valuemax="100" style="width:70%">
+		  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{estadisticas.1}}"
+		  aria-valuemin="0" aria-valuemax="100" style="width:{{estadisticas.1}}%">
 			{{estadisticas.1}}% Desaprueba
 		  </div>
 		</div>
@@ -49,7 +49,7 @@
 </div>
 	
 	<h4>Deja un comentario</h4>
-      <form method='POST' action='{% url 'blog:insertComment' id %}'  > {% csrf_token %} 
+      <form method='POST' action='{% url 'blog:insertCommentProject' id %}'  > {% csrf_token %} 
         <div class="form-group">
           <textarea class="form-control" name='comment' rows="3" required></textarea>
         </div>

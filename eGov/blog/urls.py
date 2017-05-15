@@ -41,6 +41,9 @@ urlpatterns = [
                 url(r'^perfil/$', views.Profile, name='Perfil'),
 
                 url(r'^comentario/(?P<id>[0-9]+)$',views.insertComment, name='insertComment'),
+				
+				url(r'^comentarioProyecto/(?P<id>[0-9]+)$',views.insertCommentProject, name='insertCommentProject'),
+
 
                 
             ]

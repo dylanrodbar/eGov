@@ -9,10 +9,10 @@ from django.core.urlresolvers import reverse
 
 
 def newProject(request):
-    return render(request, 'blog/newProyecto.html')
+    return render(request, 'blogClient/newProyecto.html')
 
 def newNoticia(request):
-    return render(request, 'blog/newNoticia.html')
+    return render(request, 'blogClient/newNoticia.html')
 
 def Profile(request):
     user = int(request.session['Usuario'])
@@ -118,7 +118,7 @@ def ProyectosDetail(request, id):
     
     numComentarios = 0
     post = get_object_or_404(Posts, pk=id)
-    template = loader.get_template('blog/PostProyectos.html')
+    template = loader.get_template('blogClient/PostProyectos.html')
     
 
     cur = connection.cursor()
@@ -165,13 +165,23 @@ def insertComment(request, id):
     #return redirect('postNoticias', id=idk)
     return HttpResponseRedirect(reverse('blogClient:postNoticias', args=[id])) 
     
+def insertCommentProject(request, id):
+
+    template = loader.get_template('blogClient/PostNoticias.html')
+    comment = request.POST.get('comment')
+    cur = connection.cursor()
+    user = int(request.session['Usuario'])
+    cur.callproc('EGSP_InsertComment', [comment, user, id,])
+    cur.close
+    context = {}
+	 
+    return HttpResponseRedirect(reverse('blogClient:postProyectos', args=[id])) 
 
 def insertPost(request):
-    print("Entra a insert post")
     template = loader.get_template('blogClient/newNoticia.html')
     title = request.POST.get('title')
     comment = request.POST.get('comment')
-    content = 'Contenido5'
+    content = request.POST.get('content')
     user = int(request.session['Usuario'])
     cur = connection.cursor()
     cur.callproc('EInsertPost', [title, comment, content, user])
@@ -180,7 +190,7 @@ def insertPost(request):
     
 
 def updateUser(request):
-    template = loader.get_template('blog/profile.html')
+    template = loader.get_template('blogClient/profile.html')
     
     user = int(request.session['Usuario'])
     idTipoUsuario = int(request.session['IdTipoUsuario'])
@@ -198,7 +208,7 @@ def updateUser(request):
 
 def editarNoticia(request, id):
     
-    template = loader.get_template('blog/editarNoticia.html')
+    template = loader.get_template('blogClient/editarNoticia.html')
     context = {
         'id': id
     }
@@ -207,7 +217,7 @@ def editarNoticia(request, id):
 
 def editarNoticiaEsp(request, id):
 
-    template = loader.get_template('blog/editarNoticia.html')
+    template = loader.get_template('blogClient/editarNoticia.html')
     title = request.POST.get('title')
     comment = request.POST.get('description')
     content = request.POST.get('content')
@@ -215,11 +225,11 @@ def editarNoticiaEsp(request, id):
     cur = connection.cursor()
     cur.callproc('updatePost', [id, title, comment, content])
     cur.close
-    return HttpResponseRedirect(reverse('blog:Perfil'))
+    return HttpResponseRedirect(reverse('blogClient:Perfil'))
 
 def deletePost(request, id):
 
-    template = loader.get_template('blog/profile.html')
+    template = loader.get_template('blogClient/profile.html')
     context = {}
     cur = connection.cursor()
     cur.callproc('deletePost', [id])

@@ -13,7 +13,7 @@
 	<br><br>
 	
 	<h4>Deja un comentario</h4>
-      <form method='POST' action='{% url 'blog:insertComment' id %}'  > {% csrf_token %} 
+      <form method='POST' action='{% url 'blogClient:insertComment' id %}'  > {% csrf_token %} 
         <div class="form-group">
           <textarea class="form-control" rows="3" required name='comment'></textarea>
         </div>

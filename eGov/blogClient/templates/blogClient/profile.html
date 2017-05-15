@@ -62,7 +62,21 @@
     max-height: 220px;
     overflow-x: hidden;">
     {% for post in posts %}
-		<li class="list-group-item">
+		{% if  post.3  == "Pendiente" %}
+			<li class="list-group-item list-group-item-warning">
+			
+		{% endif %}
+		
+		{% if  post.3  == "Aceptado" %}
+			<li class="list-group-item list-group-item-success">
+			
+			
+		{% endif %}
+		
+		{% if post.3 == "Rechazado" %}
+			<li class="list-group-item list-group-item-danger">
+		{% endif %}
+		
 		<div class="row">
 	
 		<div class="col-md-8">{{post.0}} {{Visitas }}{{post.1}} </div>
@@ -97,7 +111,7 @@
         			
         			<div class="modal-body">
         				
-	                    <form role="form" class="login-form" method='POST' action='{% url 'blog:updateUser'  %}'  > {% csrf_token %}
+	                    <form role="form" class="login-form" method='POST' action='{% url 'blogClient:updateUser'  %}'  > {% csrf_token %}
 						<div class="row">
 						<div class="col-md-4" align= "center">
 							<div class="form-group"> 

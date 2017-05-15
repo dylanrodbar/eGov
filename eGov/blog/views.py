@@ -27,14 +27,15 @@ def Profile(request):
     path = datos[0][3]
     points = str(datos[0][4])+"%"
     
-    print("holaaa")
-    print(path)
-
+    
 
     cur.nextset()
     cur.callproc('PostsXUser', [user,])
     posts = cur.fetchall()
+    
     cur.close
+    
+    print(posts)
     context = {
         'name': name,
         'lastname': lastname,
@@ -159,8 +160,20 @@ def insertComment(request, id):
     cur.callproc('EGSP_InsertComment', [comment, user, id,])
     cur.close
     context = {}
-    #return redirect('postNoticias', id=idk)
+	 
     return HttpResponseRedirect(reverse('blog:postNoticias', args=[id])) 
+	
+def insertCommentProject(request, id):
+
+    template = loader.get_template('blog/PostNoticias.html')
+    comment = request.POST.get('comment')
+    cur = connection.cursor()
+    user = int(request.session['Usuario'])
+    cur.callproc('EGSP_InsertComment', [comment, user, id,])
+    cur.close
+    context = {}
+	 
+    return HttpResponseRedirect(reverse('blog:postProyectos', args=[id])) 
     
 
 def insertPost(request):
@@ -259,7 +272,7 @@ def ProyectoAddYes(request, id):
     cur.close
 
 
-    return HttpResponseRedirect(reverse('blogClient:postProyectos', args=[id])) 
+    return HttpResponseRedirect(reverse('blog:postProyectos', args=[id])) 
     
 
 def ProyectoAddNo(request, id):
@@ -268,7 +281,7 @@ def ProyectoAddNo(request, id):
     cur.callproc('addNoProject', [id])
     cur.close
 
-    return HttpResponseRedirect(reverse('blogClient:postProyectos', args=[id])) 
+    return HttpResponseRedirect(reverse('blog:postProyectos', args=[id])) 
     
 
 def ProyectoAddUnknown(request, id):
@@ -277,7 +290,7 @@ def ProyectoAddUnknown(request, id):
     cur.callproc('addUnknownProject', [id])
     cur.close
 
-    return HttpResponseRedirect(reverse('blogClient:postProyectos', args=[id])) 
+    return HttpResponseRedirect(reverse('blog:postProyectos', args=[id])) 
 
 
 def aceptarNoticia(request, id):

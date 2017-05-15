@@ -5,7 +5,7 @@
 <div class="container">
 {% for post in noticias %}
 
-		<h2><a href="/blog/noticias/{{post.4}}">  {{ post.0 }}</a></h2>
+		<h2><a href="/blogClient/noticias/{{post.4}}">  {{ post.0 }}</a></h2>
 		<h4>{{ post.3|date:"Y-m-d" }}</h4>
 		<p>{{post.1}}</p>
 		
@@ -21,7 +21,7 @@
 	
 		 
 	<div align="right" >
-		<a href="/blog/noticias/new/"><button type="submit" class="btn btn-danger" style="margin-top:20px;">Nueva Noticia</button></a>
+		<a href="/blogClient/noticias/new/"><button type="submit" class="btn btn-danger" style="margin-top:20px;">Nueva Noticia</button></a>
 	</div>
 		  
 	
