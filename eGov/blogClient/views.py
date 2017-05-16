@@ -87,6 +87,9 @@ def Proyectos(request):
 def NoticiasDetail(request, id):
     
     numComentarios = 0
+    resultado = ""
+    user = int(request.session['Usuario'])
+    
     post = get_object_or_404(Posts, pk=id)
     cur = connection.cursor()
     cur.callproc('commentsPost', [id,])
@@ -99,9 +102,18 @@ def NoticiasDetail(request, id):
     cur.nextset()
     cur.callproc('addViewPost', [id,])
 
+    cur.nextset()
+    cur.callproc('getPointPost', [user, id,])
+    points = cur.fetchall()
+
+    
+
     cur.close 
     template = loader.get_template('blogClient/PostNoticias.html')
     
+    if points != ():
+        resultado = "Mostrar"
+
 
     if num != ():
         numComentarios = num[0][1]
@@ -110,13 +122,16 @@ def NoticiasDetail(request, id):
     'post': post,
     'comentarios': comentarios,
     'id': id,
-    'numComentarios': numComentarios
+    'numComentarios': numComentarios,
+    'resultado': resultado
     }
     return HttpResponse(template.render(context, request))
 
 def ProyectosDetail(request, id):
     
     numComentarios = 0
+    resultado = ""
+    user = int(request.session['Usuario'])
     post = get_object_or_404(Posts, pk=id)
     template = loader.get_template('blogClient/PostProyectos.html')
     
@@ -135,8 +150,17 @@ def ProyectosDetail(request, id):
     cur.nextset()
     cur.callproc('getStadisticsProject', [id,])
     estadisticas = cur.fetchall()
+    
+    cur.nextset()
+    cur.callproc('getVotePost', [user, id,])
+    votes = cur.fetchall()
+
+    
     cur.close
     
+    if votes != ():
+        resultado = "Mostrar"
+
 
     if num != ():
         numComentarios = num[0][1]
@@ -148,7 +172,8 @@ def ProyectosDetail(request, id):
     'comentarios': comentarios,
     'numComentarios': numComentarios,
     'id': id,
-    'estadisticas': estadisticas[0]
+    'estadisticas': estadisticas[0],
+    'resultado': resultado
     }
     return HttpResponse(template.render(context, request))
 
@@ -239,19 +264,52 @@ def deletePost(request, id):
 
 
 def ProyectoAddYes(request, id):
-    
+    user = int(request.session['Usuario'])
+        
     cur = connection.cursor()
     cur.callproc('addYesProject', [id])
+
+    cur.nextset()
+    cur.callproc('InsertVotePost', [user, id,])
+    
+
     cur.close
 
 
-    return HttpResponseRedirect(reverse('blogClient:postProyectos', args=[id])) 
+    return HttpResponseRedirect(reverse('blogClient:postProyectos', args=[id]))
+    
+    
+def NoticiaAddOne(request, id):
+    user = int(request.session['Usuario'])
+        
+    cur = connection.cursor()
+    cur.callproc('getUserPost', [id])
+    userC = cur.fetchall()
+    userE = userC[0][0]
+    
+
+    cur.nextset()
+    cur.callproc('addPointUser', [userE])
+
+    cur.nextset()
+    cur.callproc('InsertPointPost', [user, id,])
+    
+
+    cur.close
+
+
+    return HttpResponseRedirect(reverse('blogClient:postNoticias', args=[id])) 
     
 
 def ProyectoAddNo(request, id):
+    user = int(request.session['Usuario'])
     
     cur = connection.cursor()
     cur.callproc('addNoProject', [id])
+
+    cur.nextset()
+    cur.callproc('InsertVotePost', [user, id,])
+    
     cur.close
 
     return HttpResponseRedirect(reverse('blogClient:postProyectos', args=[id])) 
@@ -259,8 +317,14 @@ def ProyectoAddNo(request, id):
 
 def ProyectoAddUnknown(request, id):
     
+    user = int(request.session['Usuario'])
+    
     cur = connection.cursor()
     cur.callproc('addUnknownProject', [id])
+
+    cur.nextset()
+    cur.callproc('InsertVotePost', [user, id,])
+    
     cur.close
 
     return HttpResponseRedirect(reverse('blogClient:postProyectos', args=[id])) 

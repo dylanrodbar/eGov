@@ -298,3 +298,52 @@ END
 //
 
 DELIMITER ;
+
+
+
+delimiter $$
+create procedure addPointUser(User int)
+begin
+	Update Users set points = points + 1 where Id = User;
+end $$
+delimiter ;
+call addPointUser(1)
+select * from Users
+
+
+delimiter $$
+create procedure InsertPointPost(User int, Post int)
+begin
+	insert into PointsPost(FK_User, FK_Post) values(User, Post);
+end $$
+delimiter ;
+
+delimiter $$
+create procedure InsertVotePost(User int, Post int)
+begin
+	insert into VotesPost(FK_User, FK_Post) values(User, Post);
+end $$
+delimiter ;
+
+delimiter $$
+create procedure getPointPost(User int, Post int)
+begin
+	select * from PointsPost pp where pp.FK_User = User and pp.FK_Post = Post;
+end $$
+delimiter ;
+
+
+delimiter $$
+create procedure getVotePost(User int, Post int)
+begin
+	select * from VotesPost vp where vp.FK_User = User and vp.FK_Post = Post;
+end $$
+delimiter ;
+
+
+delimiter $$
+create procedure getUserPost(Post int)
+begin
+	select u.Id from Users u, Posts p where p.Id = Post and p.FK_User = u.Id;
+end $$
+delimiter ;

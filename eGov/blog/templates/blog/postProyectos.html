@@ -14,6 +14,7 @@
 			{{ post.2|safe|linebreaks}}
 		
 			<br><br>
+		{% if resultado != "Mostrar" %}
 		<div align="right">
 			<a  href="/blog/proyectos/addYes/{{id}}"><span class="glyphicon glyphicon-thumbs-up"></span> Aprueba</a>
 			&nbsp&nbsp
@@ -21,6 +22,7 @@
 			&nbsp&nbsp
 			<a href="/blog/proyectos/addNo/{{id}}"><span class="glyphicon glyphicon-thumbs-down"></span> Desaprueba</a>
 		</div>
+		{% endif %}
    
 			
 	</div>

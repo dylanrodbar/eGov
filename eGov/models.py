@@ -189,6 +189,15 @@ class Lawprojects(models.Model):
         db_table = 'lawprojects'
 
 
+class Pointspost(models.Model):
+    fk_user = models.ForeignKey('Users', models.DO_NOTHING, db_column='FK_User', blank=True, null=True)  # Field name made lowercase.
+    fk_post = models.ForeignKey('Posts', models.DO_NOTHING, db_column='FK_Post', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'pointspost'
+
+
 class Posts(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     title = models.CharField(db_column='Title', max_length=50, blank=True, null=True)  # Field name made lowercase.
@@ -266,3 +275,12 @@ class Usertypes(models.Model):
     class Meta:
         managed = False
         db_table = 'usertypes'
+
+
+class Votespost(models.Model):
+    fk_user = models.ForeignKey(Users, models.DO_NOTHING, db_column='FK_User', blank=True, null=True)  # Field name made lowercase.
+    fk_post = models.ForeignKey(Posts, models.DO_NOTHING, db_column='FK_Post', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'votespost'

@@ -117,6 +117,10 @@ def NoticiasDetail(request, id):
 
 def ProyectosDetail(request, id):
     numComentarios = 0
+    
+    resultado = ""
+    user = int(request.session['Usuario'])
+    
     post = get_object_or_404(Posts, pk=id)
     template = loader.get_template('blog/PostProyectos.html')
     
@@ -135,8 +139,16 @@ def ProyectosDetail(request, id):
     cur.nextset()
     cur.callproc('getStadisticsProject', [id,])
     estadisticas = cur.fetchall()
+
+    cur.nextset()
+    cur.callproc('getVotePost', [user, id,])
+    votes = cur.fetchall()
+
+
     cur.close
     
+    if votes != ():
+        resultado = "Mostrar"
 
     if num != ():
         numComentarios = num[0][1]
@@ -146,7 +158,8 @@ def ProyectosDetail(request, id):
     'comentarios': comentarios,
     'id': id,
     'numComentarios': numComentarios,
-    'estadisticas': estadisticas[0]
+    'estadisticas': estadisticas[0],
+    'resultado': resultado
     }
     return HttpResponse(template.render(context, request))
 
@@ -267,8 +280,14 @@ def deletePost(request, id):
 
 def ProyectoAddYes(request, id):
     
+    user = int(request.session['Usuario'])
+    
     cur = connection.cursor()
     cur.callproc('addYesProject', [id])
+
+    cur.nextset()
+    cur.callproc('InsertVotePost', [user, id,])
+
     cur.close
 
 
@@ -277,8 +296,15 @@ def ProyectoAddYes(request, id):
 
 def ProyectoAddNo(request, id):
     
+    user = int(request.session['Usuario'])
+    
+
     cur = connection.cursor()
     cur.callproc('addNoProject', [id])
+
+    cur.nextset()
+    cur.callproc('InsertVotePost', [user, id,])
+
     cur.close
 
     return HttpResponseRedirect(reverse('blog:postProyectos', args=[id])) 
@@ -286,8 +312,15 @@ def ProyectoAddNo(request, id):
 
 def ProyectoAddUnknown(request, id):
     
+    user = int(request.session['Usuario'])
+    
+    
     cur = connection.cursor()
     cur.callproc('addUnknownProject', [id])
+
+    cur.nextset()
+    cur.callproc('InsertVotePost', [user, id,])
+
     cur.close
 
     return HttpResponseRedirect(reverse('blog:postProyectos', args=[id])) 

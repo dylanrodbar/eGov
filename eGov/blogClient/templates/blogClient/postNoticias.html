@@ -10,6 +10,15 @@
 <div class = "container">
 	{{ post.content|safe|linebreaks}}
 </div>
+
+{% if resultado != "Mostrar" %}
+		
+<div align="right">
+			<a  href="/blogClient/noticias/addOne/{{id}}"><span class="glyphicon glyphicon-thumbs-up"></span> +1</a>
+</div>
+
+{% endif %}
+
 	<br><br>
 	
 	<h4>Deja un comentario</h4>

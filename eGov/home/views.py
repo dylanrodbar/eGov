@@ -110,4 +110,4 @@ def salir(request):
 
     request.session.modified = True
 
-    return HttpResponseRedirect(reverse('home:index'))
+    return HttpResponseRedirect(reverse('personal:contact'))

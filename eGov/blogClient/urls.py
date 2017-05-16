@@ -15,6 +15,8 @@ urlpatterns = [
 
                 url(r'^noticias/(?P<id>[0-9]+)$',views.NoticiasDetail, name='postNoticias'),
 
+                url(r'^noticias/addOne/(?P<id>[0-9]+)$',views.NoticiaAddOne, name='NoticiaAddOne'),
+
                 url(r'^noticias/deletePost/(?P<id>[0-9]+)$',views.deletePost, name='deletePost'),
 
 
