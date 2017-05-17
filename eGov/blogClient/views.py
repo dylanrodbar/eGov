@@ -88,6 +88,7 @@ def NoticiasDetail(request, id):
     
     numComentarios = 0
     resultado = ""
+    mBotonAgrPunto = ""
     user = int(request.session['Usuario'])
     
     post = get_object_or_404(Posts, pk=id)
@@ -106,24 +107,40 @@ def NoticiasDetail(request, id):
     cur.callproc('getPointPost', [user, id,])
     points = cur.fetchall()
 
+
+    cur.nextset()
+    cur.callproc('getUserPost', [id,])
+    userElements = cur.fetchall()
+
     
+    print(points)
+    print(comentarios)
+    Path = comentarios[0][3]
 
     cur.close 
     template = loader.get_template('blogClient/PostNoticias.html')
     
-    if points != ():
+    if points == ():
         resultado = "Mostrar"
 
 
     if num != ():
         numComentarios = num[0][1]
 
+    if user != userElements[0][0]:
+        mBotonAgrPunto = "Mostrar"
+
+
+    
     context = {
     'post': post,
     'comentarios': comentarios,
     'id': id,
     'numComentarios': numComentarios,
-    'resultado': resultado
+    'resultado': resultado,
+    'userElements': userElements[0],
+    'mBotonAgrPunto': mBotonAgrPunto,
+    'Path': Path
     }
     return HttpResponse(template.render(context, request))
 
@@ -157,6 +174,8 @@ def ProyectosDetail(request, id):
 
     
     cur.close
+
+    Path = comentarios[0][3]
     
     if votes != ():
         resultado = "Mostrar"
@@ -173,7 +192,8 @@ def ProyectosDetail(request, id):
     'numComentarios': numComentarios,
     'id': id,
     'estadisticas': estadisticas[0],
-    'resultado': resultado
+    'resultado': resultado,
+    'Path': Path
     }
     return HttpResponse(template.render(context, request))
 

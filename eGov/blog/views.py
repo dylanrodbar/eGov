@@ -107,11 +107,14 @@ def NoticiasDetail(request, id):
     if num != ():
         numComentarios = num[0][1]
 
+    Path = comentarios[0][3]
+
     context = {
     'post': post,
     'comentarios': comentarios,
     'id': id,
-    'numComentarios': numComentarios
+    'numComentarios': numComentarios,
+    'Path': Path
     }
     return HttpResponse(template.render(context, request))
 
@@ -153,13 +156,16 @@ def ProyectosDetail(request, id):
     if num != ():
         numComentarios = num[0][1]
 
+    Path = comentarios[0][3]
+
     context = {
     'post': post,
     'comentarios': comentarios,
     'id': id,
     'numComentarios': numComentarios,
     'estadisticas': estadisticas[0],
-    'resultado': resultado
+    'resultado': resultado,
+    'Path': Path
     }
     return HttpResponse(template.render(context, request))
 

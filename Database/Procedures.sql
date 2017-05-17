@@ -27,13 +27,13 @@ delimiter ;
 delimiter $$
 create procedure commentsPost(Post int)
 begin
-	select c.Description, u.Name, c.Date from Posts p, Comments c, Users u
-		where p.Id = Post and p.Id = c.FK_Post and c.FK_User = u.Id;
+	select c.Description, u.Name, c.Date, pp.Path from Posts p, Comments c, Users u, ProfilePictures pp
+		where p.Id = Post and p.Id = c.FK_Post and c.FK_User = u.Id and u.FK_ProfilePicture = pp.Id;
 end $$
 
 delimiter;
 
-
+drop procedure commentsPost
 delimiter $$
 create procedure PostsXUser(User int)
 begin
@@ -45,14 +45,15 @@ end $$
 delimiter ;
 
 delimiter $$
-create procedure SignIn(Name varchar(75), LastName varchar(75), UserName varchar(25), Email varchar(75), Password varchar(200))
+create procedure SignIn(Name varchar(75), LastName varchar(75), UserName varchar(25), Email varchar(75), Password varchar(200), ProfilePic int)
 begin
 	insert into Users(Name, LastName, UserName, Email, PassWord, Points, FK_UserType, FK_ProfilePicture) 
-	values(Name, LastName, UserName, Email, Password, 0, 2, 1);
+	values(Name, LastName, UserName, Email, Password, 0, 2, ProfilePic);
 	
 end $$
 
 delimiter ;
+
 
 
 delimiter $$
@@ -126,13 +127,16 @@ call selectLawProjects()
 delimiter $$
 CREATE PROCEDURE selectNewsClient ()
 BEGIN
-	select p.title, p.description, p.content, p.Date, p.Id from Posts p,  LawProjects lp where p.Id not in
-		(select FK_Post from LawProjects) and p.State = 'Aceptado'
-    group by p.Id;
-		
+
+	if not exists (select * from LawProjects) then
+		select p.title, p.description, p.content, p.Date, p.Id from Posts p where p.State = 'Aceptado';
+	else
+		select p.title, p.description, p.content, p.Date, p.Id from Posts p,  LawProjects lp where p.Id not in
+			(select FK_Post from LawProjects) and p.State = 'Aceptado'
+		group by p.Id;
+	end if;
 END $$
 delimiter ;
-
 
 delimiter $$
 CREATE PROCEDURE selectNewsAdmin ()
@@ -299,8 +303,6 @@ END
 
 DELIMITER ;
 
-
-
 delimiter $$
 create procedure addPointUser(User int)
 begin
@@ -340,10 +342,9 @@ begin
 end $$
 delimiter ;
 
-
 delimiter $$
 create procedure getUserPost(Post int)
 begin
-	select u.Id from Users u, Posts p where p.Id = Post and p.FK_User = u.Id;
+	select u.Id, u.Name, u.Points from Users u, Posts p where p.Id = Post and p.FK_User = u.Id;
 end $$
 delimiter ;

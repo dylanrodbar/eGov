@@ -6,6 +6,8 @@ from django.template import loader
 from django.db import connection
 from django.core.urlresolvers import reverse
 
+import random
+
 def index(request):
     
     print("ENTRE")
@@ -49,8 +51,9 @@ def signin(request):
     username = request.POST.get('username')
     email = request.POST.get('email')
     password = str(request.POST.get('password'))
+    path = random.randrange(101)
     cur = connection.cursor()
-    cur.callproc('SignIn', [name, lastname, username, email, password,])
+    cur.callproc('SignIn', [name, lastname, username, email, password,path])
     cur.fetchall()
     cur.nextset()
 
