@@ -12,6 +12,8 @@
 </div>
 	<br><br>
 	
+	{% if resultado == "Mostrar" %}
+	
 	<div align="right">
 			    <a href="/blog/noticias/aceptarNoticia/{{id}}" <button type="submit" class="btn btn-danger">Aceptar</button></a>
 	</div>
@@ -19,6 +21,8 @@
 	<div align="right">
 			    <a href="/blog/noticias/rechazarNoticia/{{id}}" <button type="submit" class="btn btn-danger">Rechazar</button></a>
 	</div>
+	
+	{% endif %}
 	
 	<h4>Deja un comentario</h4>
       <form method='POST' action='{% url 'blog:insertComment' id %}'  > {% csrf_token %} 

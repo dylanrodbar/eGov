@@ -115,7 +115,7 @@ def NoticiasDetail(request, id):
     
     print(points)
     print(comentarios)
-    Path = comentarios[0][3]
+    
 
     cur.close 
     template = loader.get_template('blogClient/PostNoticias.html')
@@ -140,7 +140,6 @@ def NoticiasDetail(request, id):
     'resultado': resultado,
     'userElements': userElements[0],
     'mBotonAgrPunto': mBotonAgrPunto,
-    'Path': Path
     }
     return HttpResponse(template.render(context, request))
 

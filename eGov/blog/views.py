@@ -86,19 +86,30 @@ def Proyectos(request):
 
 
 def NoticiasDetail(request, id):
-    
     numComentarios = 0
+    resultado = ""
+    user = int(request.session['Usuario'])
     post = get_object_or_404(Posts, pk=id)
     cur = connection.cursor()
     cur.callproc('commentsPost', [id,])
     comentarios = cur.fetchall()
+        
     
     cur.nextset()
     cur.callproc('numCommentPost', [id,])
     num = cur.fetchall()
-    
+
     cur.nextset()
     cur.callproc('addViewPost', [id,])
+
+    cur.nextset()
+    cur.callproc('getPointPost', [user, id,])
+    points = cur.fetchall()
+
+
+    cur.nextset()
+    cur.callproc('getUserPost', [id,])
+    userElements = cur.fetchall()
     
     cur.close 
     template = loader.get_template('blog/PostNoticias.html')
@@ -107,14 +118,17 @@ def NoticiasDetail(request, id):
     if num != ():
         numComentarios = num[0][1]
 
-    Path = comentarios[0][3]
+    
+    if user != userElements[0][0]:
+        resultado = "Mostrar"
 
+    
     context = {
     'post': post,
     'comentarios': comentarios,
     'id': id,
     'numComentarios': numComentarios,
-    'Path': Path
+    'resultado': resultado
     }
     return HttpResponse(template.render(context, request))
 
