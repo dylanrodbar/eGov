@@ -39,14 +39,7 @@
 	  </a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="/">Inicio</a></li>
-        <li><a href='/login/redirectNoticias'>Noticias</a></li>
-        <li><a href='/login/redirectProyectos'>Proyectos</a></li>
-        <li><a href='/'>Sobre nosotros</a></li>
-		<li><a href='/personal/contacto'>Contacto</a></li>
-		<li><a href='/login/redirectPerfil'>Perfil</a></li>
-      </ul>
+      
 	  {% if not request.session.Usuario %}
 		  <ul class="nav navbar-nav navbar-right">
 				<li><a  href="#" data-toggle="modal" data-target="#SignUp"><span class="glyphicon glyphicon-user"></span> Registrarse</a></li>
@@ -55,6 +48,15 @@
 	  {% endif %}
 	  
 	  {% if request.session.Usuario %}
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="/">Inicio</a></li>
+				<li><a href='/login/redirectNoticias'>Noticias</a></li>
+				<li><a href='/login/redirectProyectos'>Proyectos</a></li>
+				<li><a href='/'>Sobre nosotros</a></li>
+				<li><a href='/personal/contacto'>Contacto</a></li>
+				<li><a href='/login/redirectPerfil'>Perfil</a></li>
+			</ul>
+			
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="/salir" data-toggle="modal" data-target="#Login"><span class="glyphicon glyphicon-log-in"></span> Salir</a></li>
 			</ul>

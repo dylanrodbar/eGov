@@ -7,7 +7,7 @@
 <br>
 <div class="container">
 
-    <form class="well form-horizontal" action=" " method="post"  id="contact_form">
+    <form class="well form-horizontal" method='POST' action='{% url 'personal:enviarCorreo' %}'  > {% csrf_token %} 
 <fieldset>
 
 <!-- Form Name -->
@@ -20,7 +20,7 @@
   <div class="col-md-6 inputGroupContainer">
   <div class="input-group">
   <span class="input-group-addon" id="sizing-addon1"><i class="glyphicon glyphicon-user"></i></span>
-  <input  name="first_name" placeholder="Nombre" class="form-control"  type="text">
+  <input  name="nombre" placeholder="Nombre" class="form-control"  type="text">
     </div>
   
 </div>
@@ -33,18 +33,28 @@
     <div class="col-md-6 inputGroupContainer">
     <div class="input-group">
   <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-  <input name="last_name" placeholder="Apellido" class="form-control"  type="text">
+  <input name="apellido" placeholder="Apellido" class="form-control"  type="text">
     </div>
   </div>
 </div>
 
 <!-- Text input-->
-       <div class="form-group">
+<div class="form-group">
   <label class="col-md-2 control-label">Email</label>  
     <div class="col-md-6 inputGroupContainer">
     <div class="input-group">
         <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
   <input name="email" placeholder="Email" class="form-control"  type="text">
+    </div>
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-2 control-label">Contraseña</label>  
+    <div class="col-md-6 inputGroupContainer">
+    <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+  <input name="password" placeholder="Contraseña" class="form-control"  type="password">
     </div>
   </div>
 </div>
@@ -57,7 +67,7 @@
     <div class="col-md-6 inputGroupContainer">
     <div class="input-group">
         <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-  <input name="phone" placeholder="Telefono" class="form-control" type="text">
+  <input name="telefono" placeholder="Telefono" class="form-control" type="text">
     </div>
   </div>
 </div>
@@ -73,7 +83,7 @@
     <div class="col-md-6 inputGroupContainer">
     <div class="input-group">
         <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-        	<textarea class="form-control" name="comment" placeholder="Escriba su mensaje" rows="5"></textarea>
+        	<textarea class="form-control" name="mensaje" placeholder="Escriba su mensaje" rows="5"></textarea>
   </div>
   </div>
 </div>

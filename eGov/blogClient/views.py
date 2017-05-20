@@ -50,7 +50,7 @@ template_name = 'blogClient/postProyectos.html'
 
 
 def Noticias(request):
-    print("ENTRLAKSLASKDLASKDLSAKDLASKDLASKD")
+
     template = loader.get_template('blogClient/noticias.html')
 
     cur = connection.cursor()
