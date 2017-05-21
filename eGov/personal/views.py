@@ -24,18 +24,19 @@ def enviarCorreo(request):
     passwordE = request.POST.get('password')
 
     mensajeE = ''
-    mensajeE += 'Nombre: ' + nombre + '\n'
-    mensajeE += 'Apellido: ' + apellido + '\n'
-    mensajeE += 'Teléfono: ' + telefono + '\n'
-    mensajeE += mensaje + '\n'
-
+    mensajeE += 'Nombre: ' + nombre + ''
+    mensajeE += 'Apellido: ' + apellido + ''
+    mensajeE += 'Telefono: ' + telefono + ''
+    mensajeE += mensaje + ''
+    
     asunto = "Solicitud de contacto"
 
 
     fromaddr = email
     toaddrs  = 'egov881@gmail.com'
-    msg = mensaje
+    msg = mensajeE
 
+    print(msg)
     
  
     # Datos
