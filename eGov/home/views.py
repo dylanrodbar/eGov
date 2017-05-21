@@ -10,7 +10,6 @@ import random
 
 def index(request):
     
-    print("ENTRE")
     template = loader.get_template('home/inicio.html')
     context = {}
     
@@ -18,6 +17,14 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 
+def errorLogin(request):
+    template = loader.get_template('home/inicio.html')
+    context = {
+        'error': "El usuario o contraseña es incorrecto"
+        }
+    
+
+    return HttpResponse(template.render(context, request))
 
 def login(request):
 
@@ -30,16 +37,17 @@ def login(request):
     login = cur.callproc('login', [username, password])
     login = cur.fetchall()
     cur.close
-    print(login)
-    request.session['Usuario'] = login[0][0]
-    request.session['TipoUsuario'] = login[0][1]
-    request.session['IdTipoUsuario'] = login[0][2]
-    
-    if login[0][1] == "Administrador":
-        return HttpResponseRedirect(reverse('blog:noticias'))
-    elif login[0][1] == "Cliente":
-        print("ENTRSLKDS A CLIENTKADSD")
-        return HttpResponseRedirect(reverse('blogClient:noticias'))
+    if login == ():
+        return HttpResponseRedirect(reverse('home:errorLogin'))
+    else:
+        request.session['Usuario'] = login[0][0]
+        request.session['TipoUsuario'] = login[0][1]
+        request.session['IdTipoUsuario'] = login[0][2]
+        
+        if login[0][1] == "Administrador":
+            return HttpResponseRedirect(reverse('blog:noticias'))
+        elif login[0][1] == "Cliente":
+            return HttpResponseRedirect(reverse('blogClient:noticias'))
 
 def signin(request):
     
