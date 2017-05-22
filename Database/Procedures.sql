@@ -345,6 +345,6 @@ delimiter ;
 delimiter $$
 create procedure getUserPost(Post int)
 begin
-	select u.Id, u.Name, u.Points from Users u, Posts p where p.Id = Post and p.FK_User = u.Id;
+	select u.Id, u.Name, u.Points, u.UserName from Users u, Posts p where p.Id = Post and p.FK_User = u.Id;
 end $$
 delimiter ;

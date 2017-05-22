@@ -24,10 +24,10 @@ def enviarCorreo(request):
     passwordE = request.POST.get('password')
 
     mensajeE = ''
-    mensajeE += 'Nombre: ' + nombre + ''
-    mensajeE += 'Apellido: ' + apellido + ''
-    mensajeE += 'Telefono: ' + telefono + ''
-    mensajeE += mensaje + ''
+    mensajeE += 'Nombre: ' + nombre + '\n'
+    mensajeE += 'Apellido: ' + apellido + '\n'
+    mensajeE += 'Telefono: ' + telefono + '\n'
+    mensajeE += mensaje + '\n'
     
     asunto = "Solicitud de contacto"
 
@@ -35,6 +35,18 @@ def enviarCorreo(request):
     fromaddr = email
     toaddrs  = 'egov881@gmail.com'
     msg = mensajeE
+    
+    email = """From: %s 
+    To: %s 
+    MIME-Version: 1.0 
+    Content-type: text/html 
+    Subject: %s 
+ 
+    %s
+    """ % (fromaddr, toaddrs, asunto, msg)
+    
+
+    
 
     print(msg)
     
@@ -47,7 +59,7 @@ def enviarCorreo(request):
     server = smtplib.SMTP('smtp.gmail.com:587')
     server.starttls()
     server.login(username,password)
-    server.sendmail(fromaddr, toaddrs,  msg)
+    server.sendmail(fromaddr, toaddrs,  email)
     server.quit()
 
     return HttpResponseRedirect(reverse('personal:contact'))

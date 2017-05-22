@@ -128,7 +128,8 @@ def NoticiasDetail(request, id):
     'comentarios': comentarios,
     'id': id,
     'numComentarios': numComentarios,
-    'resultado': resultado
+    'resultado': resultado,
+    'userElements': userElements[0],
     }
     return HttpResponse(template.render(context, request))
 
@@ -161,6 +162,10 @@ def ProyectosDetail(request, id):
     cur.callproc('getVotePost', [user, id,])
     votes = cur.fetchall()
 
+    cur.nextset()
+    cur.callproc('getUserPost', [id,])
+    userElements = cur.fetchall()
+
 
     cur.close
     
@@ -179,7 +184,8 @@ def ProyectosDetail(request, id):
     'numComentarios': numComentarios,
     'estadisticas': estadisticas[0],
     'resultado': resultado,
-    'Path': Path
+    'Path': Path,
+    'userElements': userElements[0],
     }
     return HttpResponse(template.render(context, request))
 

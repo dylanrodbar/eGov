@@ -171,6 +171,11 @@ def ProyectosDetail(request, id):
     cur.callproc('getVotePost', [user, id,])
     votes = cur.fetchall()
 
+    cur.nextset()
+    cur.callproc('getUserPost', [id,])
+    userElements = cur.fetchall()
+
+
     
     cur.close
 
@@ -182,6 +187,8 @@ def ProyectosDetail(request, id):
 
     if num != ():
         numComentarios = num[0][1]
+
+    
     
 
 
@@ -192,7 +199,8 @@ def ProyectosDetail(request, id):
     'id': id,
     'estadisticas': estadisticas[0],
     'resultado': resultado,
-    'Path': Path
+    'Path': Path,
+    'userElements': userElements[0],
     }
     return HttpResponse(template.render(context, request))
 
