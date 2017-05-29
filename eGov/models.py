@@ -190,8 +190,8 @@ class Lawprojects(models.Model):
 
 
 class Pointspost(models.Model):
-    fk_user = models.ForeignKey('Users', models.DO_NOTHING, db_column='FK_User', blank=True, null=True)  # Field name made lowercase.
     fk_post = models.ForeignKey('Posts', models.DO_NOTHING, db_column='FK_Post', blank=True, null=True)  # Field name made lowercase.
+    fk_user = models.ForeignKey('Users', models.DO_NOTHING, db_column='FK_User', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -278,8 +278,8 @@ class Usertypes(models.Model):
 
 
 class Votespost(models.Model):
-    fk_user = models.ForeignKey(Users, models.DO_NOTHING, db_column='FK_User', blank=True, null=True)  # Field name made lowercase.
     fk_post = models.ForeignKey(Posts, models.DO_NOTHING, db_column='FK_Post', blank=True, null=True)  # Field name made lowercase.
+    fk_user = models.ForeignKey(Users, models.DO_NOTHING, db_column='FK_User', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False

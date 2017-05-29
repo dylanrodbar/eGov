@@ -122,7 +122,7 @@ def NoticiasDetail(request, id):
     if user != userElements[0][0]:
         resultado = "Mostrar"
 
-    
+    print(comentarios)
     context = {
     'post': post,
     'comentarios': comentarios,

@@ -1,5 +1,5 @@
-insert into UserTypes(Name) values ('Administrador')
-insert into UserTypes(Name) values ('Cliente')
+insert into UserTypes(Name) values ('Administrador');
+insert into UserTypes(Name) values ('Cliente');
 
 
 insert into ProfilePictures(Path) values('home/img/1.png');

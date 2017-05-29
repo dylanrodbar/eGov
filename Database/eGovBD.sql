@@ -110,5 +110,23 @@ create table LawProjects
 	foreign key (FK_Post) references Posts (ID) on delete cascade
 );
 
+create table PointsPost(
+	FK_Post int,
+    FK_User int,
+    
+	foreign key (FK_Post) references Posts (ID) on delete cascade,
+    foreign key (FK_User) references Users (ID) on delete cascade
 
+
+)
+
+create table VotesPost(
+	FK_Post int,
+    FK_User int,
+    
+	foreign key (FK_Post) references Posts (ID) on delete cascade,
+    foreign key (FK_User) references Users (ID) on delete cascade
+
+
+)
 
