@@ -108,6 +108,7 @@ def redirectPerfil(request):
         return HttpResponseRedirect(reverse('blog:Perfil'))
 
     elif request.session['TipoUsuario'] == "Cliente":
+        print("Entra a blogclient")
         return HttpResponseRedirect(reverse('blogClient:Perfil'))
     
     

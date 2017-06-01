@@ -7,11 +7,12 @@
   <div class="col-md-8">
  
 
-		<h3>{{ post.0 }}</h3>
+		<h3>{{ post.title }}</h3>
 		<h6> on {{ post.date }}</h6>
 
 		
-			{{ post.2|safe|linebreaks}}
+			{{ post.content|safe|linebreaks}}
+			{{ linkE|safe|linebreaks}}
 		<h5> Autor: {{ userElements.3 }}</h5>
 		<h5> Puntaje del autor: {{ userElements.2 }}</h5>
 			<br><br>

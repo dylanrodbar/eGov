@@ -148,6 +148,15 @@ def ProyectosDetail(request, id):
     comentarios = cur.fetchall()
     
     cur.nextset()
+
+    cur.callproc('getLinkLawProject', [id,])
+    link = cur.fetchall()
+
+    print(link)
+
+    cur.nextset()
+
+    
     cur.callproc('numCommentPost', [id,])
     num = cur.fetchall()
     
@@ -166,14 +175,18 @@ def ProyectosDetail(request, id):
     cur.callproc('getUserPost', [id,])
     userElements = cur.fetchall()
 
-
-    cur.close
+    print("POST")
     
     if votes != ():
         resultado = "Mostrar"
 
     if num != ():
         numComentarios = num[0][1]
+
+    linkE = ""
+
+    if link != ():
+        linkE = link[0][0]
 
     Path = comentarios[0][3]
 
@@ -186,6 +199,7 @@ def ProyectosDetail(request, id):
     'resultado': resultado,
     'Path': Path,
     'userElements': userElements[0],
+    'linkE':linkE
     }
     return HttpResponse(template.render(context, request))
 

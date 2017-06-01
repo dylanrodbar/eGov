@@ -157,6 +157,16 @@ def ProyectosDetail(request, id):
     comentarios = cur.fetchall()
     
     cur.nextset()
+
+
+    cur.callproc('getLinkLawProject', [id,])
+    link = cur.fetchall()
+
+    print(link)
+
+    cur.nextset()
+
+    
     cur.callproc('numCommentPost', [id,])
     num = cur.fetchall()
     
@@ -179,7 +189,9 @@ def ProyectosDetail(request, id):
     
     cur.close
 
-    Path = comentarios[0][3]
+    Path = ""
+    if comentarios != ():
+        Path = comentarios[0][3]
     
     if votes != ():
         resultado = "Mostrar"
@@ -187,6 +199,11 @@ def ProyectosDetail(request, id):
 
     if num != ():
         numComentarios = num[0][1]
+
+    linkE = ""
+
+    if link != ():
+        linkE = link[0][0]
 
     
     
@@ -201,6 +218,7 @@ def ProyectosDetail(request, id):
     'resultado': resultado,
     'Path': Path,
     'userElements': userElements[0],
+    'linkE':linkE
     }
     return HttpResponse(template.render(context, request))
 
@@ -256,7 +274,7 @@ def updateUser(request):
     cur.callproc('EGSP_UpdateUser', [user, username, lastname, email, password, idTipoUsuario])
     cur.close
 
-    return HttpResponseRedirect(reverse('blog:Perfil'))
+    return HttpResponseRedirect(reverse('blogClient:Perfil'))
 
 def editarNoticia(request, id):
     

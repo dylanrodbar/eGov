@@ -16,6 +16,8 @@ urlpatterns = [
 
                 url(r'^noticias/(?P<id>[0-9]+)$',views.NoticiasDetail, name='postNoticias'),
 
+            
+
                 url(r'^noticias/aceptarNoticia/(?P<id>[0-9]+)$',views.aceptarNoticia, name='aceptarNoticia'),
 
                 url(r'^noticias/rechazarNoticia/(?P<id>[0-9]+)$',views.rechazarNoticia, name='rechazarNoticia'),
