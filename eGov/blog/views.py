@@ -188,7 +188,11 @@ def ProyectosDetail(request, id):
     if link != ():
         linkE = link[0][0]
 
-    Path = comentarios[0][3]
+
+    Path = ""
+    if comentarios != ():
+        
+        Path = comentarios[0][3]
 
     context = {
     'post': post,

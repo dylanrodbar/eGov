@@ -10,6 +10,9 @@ from smtplib import SMTP
 def contact(request):
     return render(request, 'personal/contact.html')
 
+def nosotros(request):
+    return render(request, 'personal/nosotros.html')
+
 
 
 def enviarCorreo(request):
